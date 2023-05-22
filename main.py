@@ -97,7 +97,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
     # Step 4 - Move towards food instead of random, to regain health and survive longer
     # TODO: Need to run to the nearest food
     food = game_state['board']['food']
-    if (lens(food) > 0):
+    if (len(food) > 0):
         first_food = food[0]
         if (first_food['x'] < my_head["x"] and is_move_safe["left"]):
             return {"move": "left"}
