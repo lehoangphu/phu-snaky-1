@@ -97,15 +97,16 @@ def move(game_state: typing.Dict) -> typing.Dict:
     # Step 4 - Move towards food instead of random, to regain health and survive longer
     # TODO: Need to run to the nearest food
     food = game_state['board']['food']
-    first_food = food[0]
-    if (first_food['x'] < my_head["x"] and is_move_safe["left"]):
-        return {"move": "left"}
-    elif (first_food['x'] > my_head["x"] and is_move_safe["right"]):
-        return {"move": "right"}
-    elif (first_food['y'] < my_head["y"] and is_move_safe["down"]):
-        return {"move": "down"}
-    elif (first_food['y'] > my_head["y"] and is_move_safe["up"]):
-        return {"move": "up"}
+    if (lens(food) > 0):
+        first_food = food[0]
+        if (first_food['x'] < my_head["x"] and is_move_safe["left"]):
+            return {"move": "left"}
+        elif (first_food['x'] > my_head["x"] and is_move_safe["right"]):
+            return {"move": "right"}
+        elif (first_food['y'] < my_head["y"] and is_move_safe["down"]):
+            return {"move": "down"}
+        elif (first_food['y'] > my_head["y"] and is_move_safe["up"]):
+            return {"move": "up"}
     
 
     print(f"MOVE {game_state['turn']}: {next_move}")
