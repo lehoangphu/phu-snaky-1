@@ -16,20 +16,7 @@ from flask import Flask
 from flask import request
 
 from snake_phu import move_phu
-
-# info is called when you create your Battlesnake on play.battlesnake.com
-# and controls your Battlesnake's appearance
-# TIP: If you open your Battlesnake URL in a browser you should see this data
-def info() -> typing.Dict:
-    print("INFO")
-
-    return {
-        "apiversion": "1",
-        "author": "",  # TODO: Your Battlesnake Username
-        "color": "#888888",  # TODO: Choose color
-        "head": "default",  # TODO: Choose head
-        "tail": "default",  # TODO: Choose tail
-    }
+from snake_peter import move_peter
 
 
 # start is called when your Battlesnake begins a game
@@ -45,25 +32,59 @@ def end(game_state: typing.Dict):
 app = Flask("Battlesnake")
 
 @app.get("/daddy/")
-def on_info():
-    return info()
+def on_daddy_info():
+    return {
+        "apiversion": "1",
+        "author": "Daddy",  # TODO: Your Battlesnake Username
+        "color": "#733488",  # TODO: Choose color
+        "head": "default",  # TODO: Choose head
+        "tail": "default",  # TODO: Choose tail
+    }
 
 @app.post("/daddy/start")
-def on_start():
+def on_daddy_start():
     game_state = request.get_json()
     start(game_state)
     return "ok"
 
 @app.post("/daddy/move")
-def on_move():
+def on_daddy_move():
     game_state = request.get_json()
     return move_phu(game_state)
 
 @app.post("/daddy/end")
-def on_end():
+def on_daddy_end():
     game_state = request.get_json()
     end(game_state)
     return "ok"
+
+@app.get("/peter/")
+def on_peter_info():
+    return {
+        "apiversion": "1",
+        "author": "Peter",  # TODO: Your Battlesnake Username
+        "color": "#888888",  # TODO: Choose color
+        "head": "default",  # TODO: Choose head
+        "tail": "default",  # TODO: Choose tail
+    }
+
+@app.post("/peter/start")
+def on_peter_start():
+    game_state = request.get_json()
+    start(game_state)
+    return "ok"
+
+@app.post("/peter/end")
+def on_peter_end():
+    game_state = request.get_json()
+    end(game_state)
+    return "ok"
+
+@app.post("/peter/move")
+def on_peter_move():
+    game_state = request.get_json()
+    return move_peter(game_state)
+
 
 @app.after_request
 def identify_server(response):
