@@ -13,7 +13,8 @@
 import random
 import typing
 
-from network import run_server
+from flask import Flask
+from flask import request
 
 # info is called when you create your Battlesnake on play.battlesnake.com
 # and controls your Battlesnake's appearance
@@ -113,6 +114,35 @@ def move(game_state: typing.Dict) -> typing.Dict:
     print(f"MOVE {game_state['turn']}: {next_move}")
     return {"move": next_move}
 
+app = Flask("Battlesnake")
+
+@app.get("/")
+def on_info():
+    return info()
+
+@app.post("/start")
+def on_start():
+    game_state = request.get_json()
+    start(game_state)
+    return "ok"
+
+@app.post("/move")
+def on_move():
+    game_state = request.get_json()
+    return move(game_state)
+
+@app.post("/end")
+def on_end():
+    game_state = request.get_json()
+    end(game_state)
+    return "ok"
+
+@app.after_request
+def identify_server(response):
+    response.headers.set(
+        "server", "battlesnake/github/starter-snake-python"
+    )
+    return response
+
 if __name__ == '__main__':
-   # Start server when `python main.py` is run
-    run_server({"info": info, "start": start, "move": move, "end": end})
+   app.run()
