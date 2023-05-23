@@ -5,7 +5,7 @@ def info_peter():
     return {
         "apiversion": "1",
         "author": "Peter",  # TODO: Your Battlesnake Username
-        "color": "#342342",  # TODO: Choose color
+        "color": "#142343",  # TODO: Choose color
         "head": "default",  # TODO: Choose head
         "tail": "default",  # TODO: Choose tail
     }
