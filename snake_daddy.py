@@ -1,10 +1,19 @@
 import random
 import typing
 
+def info_daddy():
+    return {
+        "apiversion": "1",
+        "author": "Daddy",  # TODO: Your Battlesnake Username
+        "color": "#733488",  # TODO: Choose color
+        "head": "default",  # TODO: Choose head
+        "tail": "default",  # TODO: Choose tail
+    }
+
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
-def move_phu(game_state: typing.Dict) -> typing.Dict:
+def move_daddy(game_state: typing.Dict) -> typing.Dict:
 
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 

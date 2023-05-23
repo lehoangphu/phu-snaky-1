@@ -1,6 +1,15 @@
 import random
 import typing
 
+def info_peter():
+    return {
+        "apiversion": "1",
+        "author": "Peter",  # TODO: Your Battlesnake Username
+        "color": "#342342",  # TODO: Choose color
+        "head": "default",  # TODO: Choose head
+        "tail": "default",  # TODO: Choose tail
+    }
+
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
