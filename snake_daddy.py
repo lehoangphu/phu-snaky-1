@@ -5,7 +5,7 @@ def info_daddy():
     return {
         "apiversion": "1",
         "author": "Daddy",  # TODO: Your Battlesnake Username
-        "color": "#733488",  # TODO: Choose color
+        "color": "#ffff31",  # TODO: Choose color
         "head": "default",  # TODO: Choose head
         "tail": "default",  # TODO: Choose tail
     }
