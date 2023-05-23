@@ -113,8 +113,6 @@ def move(game_state: typing.Dict) -> typing.Dict:
     print(f"MOVE {game_state['turn']}: {next_move}")
     return {"move": next_move}
 
-def app():
-    # Start server when `python main.py` is run
+if __name__ == '__main__':
+   # Start server when `python main.py` is run
     run_server({"info": info, "start": start, "move": move, "end": end})
-
-app()
