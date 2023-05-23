@@ -37,11 +37,11 @@ def run_server(handlers: typing.Dict):
         )
         return response
 
-    #host = "0.0.0.0"
-    #port_int = 8888
-    #port = int(os.environ.get("PORT", str(port_int)))
+    host = "0.0.0.0"
+    port_int = 8000
+    port = int(os.environ.get("PORT", str(port_int)))
 
     #logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
-    #print(f"\nRunning Battlesnake at http://{host}:{port_int}")
+    print(f"\nRunning Battlesnake at http://{host}:{port_int}")
     app.run()
