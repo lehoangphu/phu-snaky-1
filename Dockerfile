@@ -8,4 +8,4 @@ WORKDIR /usr/app
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Run Battlesnake
-CMD [ "python", "main.py" ]
+CMD [ "python", "app.py" ]
