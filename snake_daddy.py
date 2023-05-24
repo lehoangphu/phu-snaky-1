@@ -5,7 +5,7 @@ def info_daddy():
     return {
         "apiversion": "1",
         "author": "Daddy",  # TODO: Your Battlesnake Username
-        "color": "#ffff31",  # TODO: Choose color
+        "color": "#444444",  # TODO: Choose color
         "head": "default",  # TODO: Choose head
         "tail": "default",  # TODO: Choose tail
     }
@@ -46,11 +46,31 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     if (my_head['y'] == board_height-1):
         is_move_safe["up"] = False
 
-    # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
-    # my_body = game_state['you']['body']
+    # Step 2 - Prevent your Battlesnake from colliding with itself
+    my_body = game_state['you']['body']
+    for part in my_body:
+        if part["x"] == my_head["x"]+1 and part["y"] == my_head["y"]:
+            is_move_safe["right"] = False
+        if part["x"] == my_head["x"]-1 and part["y"] == my_head["y"]:
+            is_move_safe["left"] = False
+        if part["y"] == my_head["y"]+1 and part["x"] == my_head["x"]:
+            is_move_safe["up"] = False
+        if part["y"] == my_head["y"]-1 and part["x"] == my_head["x"]:
+            is_move_safe["down"] = False
 
-    # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
-    # opponents = game_state['board']['snakes']
+    # Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
+    opponents = game_state['board']['snakes']
+    for snake in opponents:
+        for part in snake["body"]:
+            if part["x"] == my_head["x"]+1 and part["y"] == my_head["y"]:
+                is_move_safe["right"] = False
+            if part["x"] == my_head["x"]-1 and part["y"] == my_head["y"]:
+                is_move_safe["left"] = False
+            if part["y"] == my_head["y"]+1 and part["x"] == my_head["x"]:
+                is_move_safe["up"] = False
+            if part["y"] == my_head["y"]-1 and part["x"] == my_head["x"]:
+                is_move_safe["down"] = False
+
 
     # Are there any safe moves left?
     safe_moves = []
