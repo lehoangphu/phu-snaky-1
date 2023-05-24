@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'NinjaSnake'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1456458ACFF24365A78AFF4B0D35B6E0 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DC0E64C95E284784982E98314911D438 }}
