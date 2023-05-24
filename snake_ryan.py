@@ -1,19 +1,19 @@
 import random
 import typing
 
-def info_peter():
+def info_ryan():
     return {
         "apiversion": "1",
-        "author": "Peter",  # TODO: Your Battlesnake Username
-        "color": "#000000",  # TODO: Choose color
+        "author": "Ryan",  # TODO: Your Battlesnake Username
+        "color": "#874719",  # TODO: Choose color
         "head": "tongue",  # TODO: Choose head
-        "tail": "hook",  # TODO: Choose tail
+        "tail": "round-bum",  # TODO: Choose tail
     }
 
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
-def move_peter(game_state: typing.Dict) -> typing.Dict:
+def move_ryan(game_state: typing.Dict) -> typing.Dict:
 
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 
@@ -22,7 +22,6 @@ def move_peter(game_state: typing.Dict) -> typing.Dict:
     my_neck = game_state["you"]["body"][1]  # Coordinates of your "neck"
 
     if my_neck["x"] < my_head["x"]:  # Neck is left of head, don't move left
-
         is_move_safe["left"] = False
 
     elif my_neck["x"] > my_head["x"]:  # Neck is right of head, don't move right
@@ -48,29 +47,10 @@ def move_peter(game_state: typing.Dict) -> typing.Dict:
         is_move_safe["up"] = False
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
-    my_body = game_state['you']['body']
-    for part in my_body:
-        if part["x"] == my_head["x"]+1 and part["y"] == my_head["y"]:
-            is_move_safe["right"] = False
-        if part["x"] == my_head["x"]-1 and part["y"] == my_head["y"]:
-            is_move_safe["left"] = False
-        if part["y"] == my_head["y"]+1 and part["x"] == my_head["x"]:
-            is_move_safe["up"] = False
-        if part["y"] == my_head["y"]-1 and part["x"] == my_head["x"]:
-            is_move_safe["down"] = False
+    # my_body = game_state['you']['body']
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
-    opponents = game_state['board']['snakes']
-    for snake in opponents:
-        for part in snake["body"]:
-            if part["x"] == my_head["x"]+1 and part["y"] == my_head["y"]:
-                is_move_safe["right"] = False
-            if part["x"] == my_head["x"]-1 and part["y"] == my_head["y"]:
-                is_move_safe["left"] = False
-            if part["y"] == my_head["y"]+1 and part["x"] == my_head["x"]:
-                is_move_safe["up"] = False
-            if part["y"] == my_head["y"]-1 and part["x"] == my_head["x"]:
-                is_move_safe["down"] = False
+    # opponents = game_state['board']['snakes']
 
     # Are there any safe moves left?
     safe_moves = []

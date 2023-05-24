@@ -30,13 +30,11 @@ def on_move(username):
 @app.post("/<username>/start")
 def on_start(username):
     game_state = request.get_json()
-    start(game_state)
     return "ok"
 
 @app.post("/<username>/end")
 def on_end(username):
     game_state = request.get_json()
-    end(game_state)
     return "ok"
 
 @app.after_request
