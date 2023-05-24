@@ -7,9 +7,15 @@
 # For more info see docs.battlesnake.com
 from flask import Flask
 from flask import request
+from flask import render_template
 
 app = Flask("Battlesnake")
 
+@app.route("/")
+def on_root():
+    return render_template("index.html")
+
+@app.get("/<username>")
 @app.get("/<username>/")
 def on_info(username):
     module_name = "snake_" + username
