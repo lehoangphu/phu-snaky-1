@@ -10,6 +10,9 @@ class Location:
             return True
         else:
             return False
+    def get_distance(self, location):
+        return abs(self.x - location.x) + abs(self.y - location.y)
+
         
 class PathEntry:
     def __init__(self, location) -> None:
