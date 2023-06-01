@@ -12,7 +12,7 @@ def info_daddy():
         "author": "Daddy",  # TODO: Your Battlesnake Username
         "color": "#0066ff",  # TODO: Choose color
         "head": "bendr",  # TODO: Choose head
-        "tail": "bendr",  # TODO: Choose tail
+        "tail": "curled",  # TODO: Choose tail
     }
 
 def get_next_move(current, next_loc):
