@@ -2,3 +2,4 @@
 *.pyc
 __pycache__/
 logs/
+logs/turn_1.json
