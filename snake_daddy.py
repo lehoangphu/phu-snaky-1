@@ -10,9 +10,9 @@ def info_daddy():
     return {
         "apiversion": "1",
         "author": "Daddy",  # TODO: Your Battlesnake Username
-        "color": "#333333",  # TODO: Choose color
-        "head": "tongue",  # TODO: Choose head
-        "tail": "hook",  # TODO: Choose tail
+        "color": "#0066ff",  # TODO: Choose color
+        "head": "bendr",  # TODO: Choose head
+        "tail": "bendr",  # TODO: Choose tail
     }
 
 def get_next_move(current, next_loc):
