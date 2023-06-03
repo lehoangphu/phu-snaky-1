@@ -81,8 +81,13 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     
     print("obstacles: ", obstacles)
     
-    # Build up a list of posible destination
-    # it starts with the nearest location first, then alternate location
+    print("elapsed time: ", (time.time() - start_time) * 1000)
+
+    # Find a possible path
+    print("Start path finding ...")
+    next_move = "unknown"
+
+    # First try to make a run to the nearest food
     foods = game_state['board']['food']
     destinations = []
     if (len(foods) > 0):
@@ -90,48 +95,39 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
         for food in foods:
             if (get_distance(food, my_head) < get_distance(nearest_food, my_head)):
                 nearest_food = food
-        destinations.append(Location(nearest_food['x'], nearest_food['y']))
-    
-    # if we cannot get to a nearest food, then we will chase our tail
-    destinations.append(my_snake[len(my_snake)-1])
-    
-    print("elapsed time: ", (time.time() - start_time) * 1000)
 
-    # Find a possible path
-    print("Start path finding ...")
-    next_move = "unknown"
-    for destination in destinations:
-        finder = AStarFinder(my_snake, destination, obstacles, board_width, board_height, 2)
-        path = finder.findthepath()
-        elapsed_time = (time.time() - start_time) * 1000
-        print("elapsed time: ", elapsed_time)
-        if (path != None and len(path) > 1):
-            print("Found path: ", path)   
-            # Build a future snake 
-            future_snake = []
-            for i in range (1, len(path)):
-                future_snake.append(path[len(path) - i])
-            # remainder needs to add 1 because the snake just ate a food
-            remainder = len(my_snake) - len(future_snake) + 1
-            for i in range(0, remainder):
-                future_snake.append(my_snake[i])
-            logging.debug("Current snake: %s", my_snake)
-            logging.debug("Future snake: %s", future_snake)
-            finder2 = AStarFinder(future_snake, future_snake[len(future_snake)-1], obstacles, board_width, board_height, 2)
-            path2 = finder2.findthepath()
-            if (path2 != None and len(path2) > 1):
-                print("New path can chase tail")
-                # only set next_move when the found path can chase tail
-                next_move = get_next_move(path[0], path[1])
-                break
-        else:
-            # if we dont find a path yet, then check on the time to make sure
-            # we can run another path finder
-            if elapsed_time > 400:
-                print("We are running out of time")
-                break
-            else:
-                print("Cannot find a path, trying another destination")
+    food_destination = Location(nearest_food['x'], nearest_food['y'])
+    food_finder = AStarFinder(my_snake, food_destination, obstacles, board_width, board_height, 2)
+    food_path = food_finder.findthepath()
+    elapsed_time = (time.time() - start_time) * 1000
+    print("elapsed time: ", elapsed_time)
+    if (food_path != None and len(food_path) > 1):
+        print("Found food path: ", food_path)   
+        # Build a future snake 
+        future_snake = []
+        for i in range (1, len(food_path)):
+            future_snake.append(food_path[len(food_path) - i])
+        # remainder needs to add 1 because the snake just ate a food
+        remainder = len(my_snake) - len(future_snake) + 1
+        for i in range(0, remainder):
+            future_snake.append(my_snake[i])
+        logging.debug("Current snake: %s", my_snake)
+        logging.debug("Future snake: %s", future_snake)
+        future_tail_finder = AStarFinder(future_snake, future_snake[len(future_snake)-1], obstacles, board_width, board_height, 2)
+        future_tail_path = future_tail_finder.findthepath()
+        if (future_tail_path != None and len(future_tail_path) > 1):
+            print("New path can chase tail")
+            # only set next_move when the found path can chase tail
+            next_move = get_next_move(food_path[0], food_path[1])
+            
+    if next_move == "unknown":
+        # if we cannot get to a nearest food, then we will chase our tail
+        tail_destination = my_snake[len(my_snake)-1]
+        tail_finder = AStarFinder(my_snake, tail_destination, obstacles, board_width, board_height, 2)
+        tail_path = tail_finder.findthepath()
+        if (tail_path != None and len(tail_path) > 1):
+            print("Found tail path: ", tail_path)
+            next_move = get_next_move(tail_path[0], tail_path[1])  
 
     # if no path is found then we fall back to a random safe move
     if (next_move == "unknown"):
@@ -147,6 +143,8 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
         down_location = Location(startLoc.x, startLoc.y - 1)
         left_location = Location(startLoc.x - 1, startLoc.y)
         right_location = Location(startLoc.x + 1, startLoc.y)
+        for part in my_snake:
+            obstacles.append(part)
         for obs in obstacles:
             if (obs == up_location):
                 is_move_safe["up"] = False
@@ -168,7 +166,7 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     return {"move": next_move}
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     dataFilePath = Path(__file__).parent / "snake_daddy.json"
     rhandle = open(dataFilePath, "r")
 
