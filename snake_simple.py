@@ -19,7 +19,7 @@ def move_simple(game_state: typing.Dict) -> typing.Dict:
     logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
     json_file = open(logFilePath, "w")
-    json.dump(game_state, json_file)
+    json.dump(game_state, json_file, indent=4)
     json_file.close()
 
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}

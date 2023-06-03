@@ -52,7 +52,7 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     start_time = time.time()
     logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
-    json_file = open(logFilePath, "w")
+    json_file = open(logFilePath, "w", indent=4)
     json.dump(game_state, json_file)
     json_file.close()
 
