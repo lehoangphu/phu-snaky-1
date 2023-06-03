@@ -6,7 +6,7 @@ from pathlib import Path
 def info_fabio():
     return {
         "apiversion": "1",
-        "author": "Fabio",  # TODO: Your Battlesnake Username
+        "author": "FabioCorsini",  # TODO: Your Battlesnake Username
         "color": "#C6DEFF",  # TODO: Choose color
         "head": "gamer",  # TODO: Choose head
         "tail": "mlh-gene",  # TODO: Choose tail
@@ -19,7 +19,7 @@ def move_fabio(game_state: typing.Dict) -> typing.Dict:
     logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
     json_file = open(logFilePath, "w")
-    json.dump(game_state, json_file)
+    json.dump(game_state, json_file, indent= 4)
     json_file.close()
 
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
@@ -41,11 +41,19 @@ def move_fabio(game_state: typing.Dict) -> typing.Dict:
         is_move_safe["up"] = False
 
     # TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
-    # board_width = game_state['board']['width']
-    # board_height = game_state['board']['height']
+    board_width = game_state['board']['width']
+    board_height = game_state['board']['height']
+    if my_head["x"] == 0:
+        is_move_safe["left"] = False
+    if my_head["x"] == board_width -1:
+        is_move_safe["right"] = False
+    if my_head["y"] == 0:
+        is_move_safe["down"] = False
+    if my_head["y"] == board_height -1:
+        is_move_safe["up"] = False
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
-    # my_body = game_state['you']['body']
+        #my_body = game_state['you']['body']
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     # opponents = game_state['board']['snakes']
