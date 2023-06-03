@@ -16,7 +16,7 @@ def info_simple():
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
 def move_simple(game_state: typing.Dict) -> typing.Dict:
-    logFileName = "logs/turn_" + str(game_state["turn"]+1) + ".json"
+    logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
     json_file = open(logFilePath, "w")
     json.dump(game_state, json_file)

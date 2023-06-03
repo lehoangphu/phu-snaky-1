@@ -50,7 +50,7 @@ def get_distance(dict_loc1, dict_loc2):
 # See https://docs.battlesnake.com/api/example-move for available data
 def move_daddy(game_state: typing.Dict) -> typing.Dict:
     start_time = time.time()
-    logFileName = "logs/turn_" + str(game_state["turn"]+1) + ".json"
+    logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
     json_file = open(logFilePath, "w")
     json.dump(game_state, json_file)
@@ -111,7 +111,8 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
             future_snake = []
             for i in range (1, len(path)):
                 future_snake.append(path[len(path) - i])
-            remainder = len(my_snake) - len(future_snake)
+            # remainder needs to add 1 because the snake just ate a food
+            remainder = len(my_snake) - len(future_snake) + 1
             for i in range(0, remainder):
                 future_snake.append(my_snake[i])
             logging.debug("Current snake: %s", my_snake)
