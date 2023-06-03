@@ -1,0 +1,114 @@
+{
+    "game": {
+      "id": "a985952e-a490-40b9-a844-b78ea6d23da0",
+      "ruleset": {
+        "name": "standard",
+        "version": "v1.2.3",
+        "settings": {
+          "foodSpawnChance": 15,
+          "minimumFood": 1,
+          "hazardDamagePerTurn": 0,
+          "hazardMap": "",
+          "hazardMapAuthor": "",
+          "royale": {
+            "shrinkEveryNTurns": 0
+          },
+          "squad": {
+            "allowBodyCollisions": false,
+            "sharedElimination": false,
+            "sharedHealth": false,
+            "sharedLength": false
+          }
+        }
+      },
+      "map": "standard",
+      "timeout": 500,
+      "source": "custom"
+    },
+    "turn": 3,
+    "board": {
+      "height": 11,
+      "width": 11,
+      "snakes": [
+        {
+          "id": "gs_Tff3WgdHtJMjJyy6frJ3tDQf",
+          "name": "test_simple",
+          "latency": "78",
+          "health": 99,
+          "body": [
+            {
+              "x": 0,
+              "y": 1
+            },
+            {
+              "x": 0,
+              "y": 2
+            },
+            {
+              "x": 1,
+              "y": 2
+            },
+            {
+              "x": 1,
+              "y": 1
+            }
+          ],
+          "head": {
+            "x": 0,
+            "y": 1
+          },
+          "length": 4,
+          "shout": "",
+          "squad": "",
+          "customizations": {
+            "color": "#874719",
+            "head": "tongue",
+            "tail": "round-bum"
+          }
+        }
+      ],
+      "food": [
+        {
+          "x": 5,
+          "y": 5
+        }
+      ],
+      "hazards": []
+    },
+    "you": {
+      "id": "gs_Tff3WgdHtJMjJyy6frJ3tDQf",
+      "name": "test_simple",
+      "latency": "78",
+      "health": 99,
+      "body": [
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "head": {
+        "x": 0,
+        "y": 1
+      },
+      "length": 4,
+      "shout": "",
+      "squad": "",
+      "customizations": {
+        "color": "#874719",
+        "head": "tongue",
+        "tail": "round-bum"
+      }
+    }
+  }
