@@ -6,7 +6,7 @@ from pathlib import Path
 def info_fabio():
     return {
         "apiversion": "1",
-        "author": "Fabio",  # TODO: Your Battlesnake Username
+        "author": "FabioCorsini",  # TODO: Your Battlesnake Username
         "color": "#C6DEFF",  # TODO: Choose color
         "head": "gamer",  # TODO: Choose head
         "tail": "mlh-gene",  # TODO: Choose tail
