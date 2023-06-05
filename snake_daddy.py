@@ -52,8 +52,8 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     start_time = time.time()
     logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
-    json_file = open(logFilePath, "w", indent=4)
-    json.dump(game_state, json_file)
+    json_file = open(logFilePath, "w")
+    json.dump(game_state, json_file, indent=4)
     json_file.close()
 
     global my_head, startLoc
@@ -66,8 +66,17 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     my_body = game_state['you']['body']
     opponents = game_state['board']['snakes']
 
+    # move_rank will be used to pick the best move to return
+    # higher numer means better move
+    # 0 mean not safe at all
+    move_rank = {
+        "up": 1, 
+        "down": 1, 
+        "left": 1, 
+        "right": 1
+    }
+
     # Calculate obstacles   
-    is_move_safe = {"up": True, "down": True, "left": True, "right": True} 
     obstacles = []
     my_snake = []
     for snake in opponents:
@@ -127,18 +136,21 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
         tail_path = tail_finder.findthepath()
         if (tail_path != None and len(tail_path) > 1):
             print("Found tail path: ", tail_path)
-            next_move = get_next_move(tail_path[0], tail_path[1])  
+            next_move = get_next_move(tail_path[0], tail_path[1])
+    
+    if (next_move != "unknown"):
+        move_rank[next_move] += 5
 
     # if no path is found then we fall back to a random safe move
     if (next_move == "unknown"):
         if (my_head['x'] == 0):
-            is_move_safe["left"] = False
+            move_rank["left"] = 0
         if (my_head['x'] == board_width-1):
-            is_move_safe["right"] = False
+            move_rank["right"] = 0
         if (my_head['y'] == 0):
-            is_move_safe["down"] = False
+            move_rank["down"] = 0
         if (my_head['y'] == board_height-1):
-            is_move_safe["up"] = False
+            move_rank["up"] = 0
         up_location = Location(startLoc.x, startLoc.y + 1)
         down_location = Location(startLoc.x, startLoc.y - 1)
         left_location = Location(startLoc.x - 1, startLoc.y)
@@ -147,20 +159,16 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
             obstacles.append(part)
         for obs in obstacles:
             if (obs == up_location):
-                is_move_safe["up"] = False
+                move_rank["up"] = 0
             if (obs == down_location):
-                is_move_safe["down"] = False
+                move_rank["down"] = 0
             if (obs == left_location):
-                is_move_safe["left"] = False
+                move_rank["left"] = 0
             if (obs == right_location):
-                is_move_safe["right"] = False
-        safe_moves = []
-        for move, isSafe in is_move_safe.items():
-            if isSafe:
-                safe_moves.append(move)
-        # Initialize next_move with a random move from the safe ones
-        next_move = random.choice(safe_moves)
-        print("Set random safe move")
+                move_rank["right"] = 0
+        
+    # pick our final move
+    next_move = max(move_rank, key=move_rank.get)
 
     print("elapsed time: ", (time.time() - start_time) * 1000)
     return {"move": next_move}
