@@ -45,6 +45,22 @@ def get_longest_destination():
 def get_distance(dict_loc1, dict_loc2):
     return abs(dict_loc1['x'] - dict_loc2['x']) + abs(dict_loc1['y'] - dict_loc2['y'])
 
+def is_adjacent_to_bigger_snakes(location):
+    global my_snake_name, my_body, opponents
+    adjacents = [
+                Location(location.x, location.y+1),
+                Location(location.x, location.y-1),
+                Location(location.x-1, location.y),
+                Location(location.x+1, location.y)
+            ]
+    for snake in opponents:
+        if snake["name"] != my_snake_name:
+            head = Location(snake["body"][0]["x"], snake["body"][0]["y"])
+            for adj in adjacents:
+                if adj == head and len(snake["body"]) >= len(my_body):
+                    return True
+    return False
+
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
@@ -56,11 +72,11 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     json.dump(game_state, json_file, indent=4)
     json_file.close()
 
-    global my_head, startLoc
+    global my_head, my_body, my_snake_name, startLoc
     my_head = game_state["you"]["body"][0]  # Coordinates of your head
     my_snake_name = game_state["you"]["name"]
     startLoc = Location(my_head["x"],my_head["y"])
-    global board_width, board_height
+    global board_width, board_height, opponents
     board_width = game_state['board']['width']
     board_height = game_state['board']['height']
     my_body = game_state['you']['body']
@@ -141,32 +157,41 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     if (next_move != "unknown"):
         move_rank[next_move] += 5
 
+    up_location = Location(startLoc.x, startLoc.y + 1)
+    down_location = Location(startLoc.x, startLoc.y - 1)
+    left_location = Location(startLoc.x - 1, startLoc.y)
+    right_location = Location(startLoc.x + 1, startLoc.y)
     # if no path is found then we fall back to a random safe move
-    if (next_move == "unknown"):
-        if (my_head['x'] == 0):
-            move_rank["left"] = 0
-        if (my_head['x'] == board_width-1):
-            move_rank["right"] = 0
-        if (my_head['y'] == 0):
-            move_rank["down"] = 0
-        if (my_head['y'] == board_height-1):
+    if (my_head['x'] == 0):
+        move_rank["left"] = 0
+    if (my_head['x'] == board_width-1):
+        move_rank["right"] = 0
+    if (my_head['y'] == 0):
+        move_rank["down"] = 0
+    if (my_head['y'] == board_height-1):
+        move_rank["up"] = 0
+    
+    for part in my_snake:
+        obstacles.append(part)
+    for obs in obstacles:
+        if (obs == up_location):
             move_rank["up"] = 0
-        up_location = Location(startLoc.x, startLoc.y + 1)
-        down_location = Location(startLoc.x, startLoc.y - 1)
-        left_location = Location(startLoc.x - 1, startLoc.y)
-        right_location = Location(startLoc.x + 1, startLoc.y)
-        for part in my_snake:
-            obstacles.append(part)
-        for obs in obstacles:
-            if (obs == up_location):
-                move_rank["up"] = 0
-            if (obs == down_location):
-                move_rank["down"] = 0
-            if (obs == left_location):
-                move_rank["left"] = 0
-            if (obs == right_location):
-                move_rank["right"] = 0
-        
+        if (obs == down_location):
+            move_rank["down"] = 0
+        if (obs == left_location):
+            move_rank["left"] = 0
+        if (obs == right_location):
+            move_rank["right"] = 0
+    
+    if is_adjacent_to_bigger_snakes(up_location):
+        move_rank["up"] -= 6
+    if is_adjacent_to_bigger_snakes(down_location):
+        move_rank["down"] -= 6
+    if is_adjacent_to_bigger_snakes(left_location):
+        move_rank["left"] -= 6
+    if is_adjacent_to_bigger_snakes(right_location):
+        move_rank["right"] -= 6
+    
     # pick our final move
     next_move = max(move_rank, key=move_rank.get)
 
@@ -174,7 +199,7 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     return {"move": next_move}
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     dataFilePath = Path(__file__).parent / "snake_daddy.json"
     rhandle = open(dataFilePath, "r")
 

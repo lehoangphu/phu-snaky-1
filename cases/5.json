@@ -1,0 +1,218 @@
+{
+    "game": {
+        "id": "2416c311-2fa1-4cc6-81d2-629547ea0402",
+        "ruleset": {
+            "name": "standard",
+            "version": "v1.2.3",
+            "settings": {
+                "foodSpawnChance": 15,
+                "minimumFood": 1,
+                "hazardDamagePerTurn": 0,
+                "hazardMap": "",
+                "hazardMapAuthor": "",
+                "royale": {
+                    "shrinkEveryNTurns": 0
+                },
+                "squad": {
+                    "allowBodyCollisions": false,
+                    "sharedElimination": false,
+                    "sharedHealth": false,
+                    "sharedLength": false
+                }
+            }
+        },
+        "map": "standard",
+        "timeout": 500,
+        "source": "custom"
+    },
+    "turn": 3,
+    "board": {
+        "height": 11,
+        "width": 11,
+        "snakes": [
+            {
+                "id": "gs_jtd9fJXh6b6CyK9cXHHCj8gV",
+                "name": "test_daddy",
+                "latency": "500",
+                "health": 97,
+                "body": [
+                    {
+                        "x": 5,
+                        "y": 4
+                    },
+                    {
+                        "x": 5,
+                        "y": 3
+                    },
+                    {
+                        "x": 5,
+                        "y": 2
+                    }
+                ],
+                "head": {
+                    "x": 5,
+                    "y": 4
+                },
+                "length": 3,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#0066ff",
+                    "head": "bendr",
+                    "tail": "curled"
+                }
+            },
+            {
+                "id": "gs_SMTfY93Jm3q7HqVQtytgCXQD",
+                "name": "PeterSnake",
+                "latency": "101",
+                "health": 97,
+                "body": [
+                    {
+                        "x": 5,
+                        "y": 6
+                    },
+                    {
+                        "x": 5,
+                        "y": 7
+                    },
+                    {
+                        "x": 5,
+                        "y": 8
+                    }
+                ],
+                "head": {
+                    "x": 5,
+                    "y": 6
+                },
+                "length": 3,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#000000",
+                    "head": "tongue",
+                    "tail": "hook"
+                }
+            },
+            {
+                "id": "gs_7yyv6Gp4VBccBfmVtYpwmkgC",
+                "name": "PeterSnake",
+                "latency": "151",
+                "health": 97,
+                "body": [
+                    {
+                        "x": 1,
+                        "y": 2
+                    },
+                    {
+                        "x": 1,
+                        "y": 3
+                    },
+                    {
+                        "x": 1,
+                        "y": 4
+                    }
+                ],
+                "head": {
+                    "x": 1,
+                    "y": 2
+                },
+                "length": 3,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#000000",
+                    "head": "tongue",
+                    "tail": "hook"
+                }
+            },
+            {
+                "id": "gs_ck9P68FM7qfdyXfMJQCWhch3",
+                "name": "PeterSnake",
+                "latency": "78",
+                "health": 97,
+                "body": [
+                    {
+                        "x": 9,
+                        "y": 2
+                    },
+                    {
+                        "x": 9,
+                        "y": 3
+                    },
+                    {
+                        "x": 9,
+                        "y": 4
+                    }
+                ],
+                "head": {
+                    "x": 9,
+                    "y": 2
+                },
+                "length": 3,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#000000",
+                    "head": "tongue",
+                    "tail": "hook"
+                }
+            }
+        ],
+        "food": [
+            {
+                "x": 4,
+                "y": 0
+            },
+            {
+                "x": 4,
+                "y": 10
+            },
+            {
+                "x": 0,
+                "y": 4
+            },
+            {
+                "x": 10,
+                "y": 4
+            },
+            {
+                "x": 5,
+                "y": 5
+            }
+        ],
+        "hazards": []
+    },
+    "you": {
+        "id": "gs_jtd9fJXh6b6CyK9cXHHCj8gV",
+        "name": "test_daddy",
+        "latency": "500",
+        "health": 97,
+        "body": [
+            {
+                "x": 5,
+                "y": 4
+            },
+            {
+                "x": 5,
+                "y": 3
+            },
+            {
+                "x": 5,
+                "y": 2
+            }
+        ],
+        "head": {
+            "x": 5,
+            "y": 4
+        },
+        "length": 3,
+        "shout": "",
+        "squad": "",
+        "customizations": {
+            "color": "#0066ff",
+            "head": "bendr",
+            "tail": "curled"
+        }
+    }
+}
