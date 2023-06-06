@@ -1,0 +1,138 @@
+{
+  "game": {
+      "id": "98be524b-de0b-4a21-b4d9-786ba14d1560",
+      "ruleset": {
+          "name": "standard",
+          "version": "v1.2.3",
+          "settings": {
+              "foodSpawnChance": 15,
+              "minimumFood": 1,
+              "hazardDamagePerTurn": 0,
+              "hazardMap": "",
+              "hazardMapAuthor": "",
+              "royale": {
+                  "shrinkEveryNTurns": 0
+              },
+              "squad": {
+                  "allowBodyCollisions": false,
+                  "sharedElimination": false,
+                  "sharedHealth": false,
+                  "sharedLength": false
+              }
+          }
+      },
+      "map": "standard",
+      "timeout": 500,
+      "source": "custom"
+  },
+  "turn": 34,
+  "board": {
+      "height": 11,
+      "width": 11,
+      "snakes": [
+          {
+              "id": "gs_Rf377KhMfKHtfYjyhbYQ97H8",
+              "name": "Tho test",
+              "latency": "290",
+              "health": 96,
+              "body": [
+                  {
+                      "x": 1,
+                      "y": 7
+                  },
+                  {
+                      "x": 2,
+                      "y": 7
+                  },
+                  {
+                      "x": 2,
+                      "y": 6
+                  },
+                  {
+                      "x": 1,
+                      "y": 6
+                  },
+                  {
+                      "x": 1,
+                      "y": 5
+                  }
+              ],
+              "head": {
+                  "x": 1,
+                  "y": 7
+              },
+              "length": 5,
+              "shout": "",
+              "squad": "",
+              "customizations": {
+                  "color": "#888888",
+                  "head": "fang",
+                  "tail": "hook"
+              }
+          }
+      ],
+      "food": [
+          {
+              "x": 5,
+              "y": 5
+          },
+          {
+              "x": 6,
+              "y": 4
+          },
+          {
+              "x": 7,
+              "y": 6
+          },
+          {
+              "x": 6,
+              "y": 9
+          },
+          {
+              "x": 5,
+              "y": 9
+          }
+      ],
+      "hazards": []
+  },
+  "you": {
+      "id": "gs_Rf377KhMfKHtfYjyhbYQ97H8",
+      "name": "Tho test",
+      "latency": "290",
+      "health": 96,
+      "body": [
+          {
+              "x": 1,
+              "y": 7
+          },
+          {
+              "x": 2,
+              "y": 7
+          },
+          {
+              "x": 2,
+              "y": 6
+          },
+          {
+              "x": 1,
+              "y": 6
+          },
+          {
+              "x": 1,
+              "y": 5
+          }
+      ],
+      "head": {
+          "x": 1,
+          "y": 7
+      },
+      "length": 5,
+      "shout": "",
+      "squad": "",
+      "customizations": {
+          "color": "#888888",
+          "head": "fang",
+          "tail": "hook"
+      }
+  }
+}
