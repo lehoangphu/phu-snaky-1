@@ -86,10 +86,10 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     # higher numer means better move
     # 0 mean not safe at all
     move_rank = {
-        "up": 1, 
-        "down": 1, 
-        "left": 1, 
-        "right": 1
+        "up": 5, 
+        "down": 5, 
+        "left": 5, 
+        "right": 5
     }
 
     # Calculate obstacles   
@@ -159,7 +159,7 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
             next_move = get_next_move(tail_path[0], tail_path[1])
     
     if (next_move != "unknown"):
-        move_rank[next_move] += 5
+        move_rank[next_move] += 1
 
     up_location = Location(startLoc.x, startLoc.y + 1)
     down_location = Location(startLoc.x, startLoc.y - 1)
@@ -189,13 +189,13 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
             move_rank["right"] = 0
     
     if is_adjacent_to_bigger_snakes(up_location):
-        move_rank["up"] -= 6
+        move_rank["up"] -= 1
     if is_adjacent_to_bigger_snakes(down_location):
-        move_rank["down"] -= 6
+        move_rank["down"] -= 1
     if is_adjacent_to_bigger_snakes(left_location):
-        move_rank["left"] -= 6
+        move_rank["left"] -= 1
     if is_adjacent_to_bigger_snakes(right_location):
-        move_rank["right"] -= 6
+        move_rank["right"] -= 1
     
     # pick our final move
     next_move = max(move_rank, key=move_rank.get)
