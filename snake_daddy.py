@@ -191,13 +191,13 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
             move_rank["right"] = 0
     
     if is_adjacent_to_bigger_snakes(up_location):
-        move_rank["up"] -= 1
+        move_rank["up"] -= 2
     if is_adjacent_to_bigger_snakes(down_location):
-        move_rank["down"] -= 1
+        move_rank["down"] -= 2
     if is_adjacent_to_bigger_snakes(left_location):
-        move_rank["left"] -= 1
+        move_rank["left"] -= 2
     if is_adjacent_to_bigger_snakes(right_location):
-        move_rank["right"] -= 1
+        move_rank["right"] -= 2
     
     # pick our final move
     next_move = max(move_rank, key=move_rank.get)
