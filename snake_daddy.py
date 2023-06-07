@@ -98,8 +98,10 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     for snake in opponents:
         # Only add the other snakes as Obstacles
         if snake["name"] != my_snake_name:
-            for position in snake["body"]:
-                obstacles.append(Location(position["x"],position["y"]))
+            # the reason for the "-1" is that 
+            # the tail of the snakes are not really obstacles 
+            for i in range(len(snake["body"]) - 1):
+                obstacles.append(Location(snake["body"][i]["x"],snake["body"][i]["y"]))
     
     for part in my_body:
         my_snake.append(Location(part["x"], part["y"]))
