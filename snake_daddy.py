@@ -137,7 +137,7 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
                 break
         
         if len(future_snake) < future_snake_length:
-            remainder = len(my_snake) - future_snake_length
+            remainder = future_snake_length - len(food_path)
             for i in range(0, remainder):
                 future_snake.append(my_snake[i])
         logging.debug("Current snake: %s", my_snake)
