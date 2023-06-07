@@ -130,12 +130,16 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
         print("Found food path: ", food_path)   
         # Build a future snake 
         future_snake = []
+        future_snake_length = len(my_snake)+1
         for i in range (1, len(food_path)):
             future_snake.append(food_path[len(food_path) - i])
-        # remainder needs to add 1 because the snake just ate a food
-        remainder = len(my_snake) - len(future_snake) + 1
-        for i in range(0, remainder):
-            future_snake.append(my_snake[i])
+            if len(future_snake) == future_snake_length:
+                break
+        
+        if len(future_snake) < future_snake_length:
+            remainder = len(my_snake) - future_snake_length
+            for i in range(0, remainder):
+                future_snake.append(my_snake[i])
         logging.debug("Current snake: %s", my_snake)
         logging.debug("Future snake: %s", future_snake)
         future_tail_finder = AStarFinder(future_snake, future_snake[len(future_snake)-1], obstacles, board_width, board_height, 2)
@@ -171,8 +175,9 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     if (my_head['y'] == board_height-1):
         move_rank["up"] = 0
     
-    for part in my_snake:
-        obstacles.append(part)
+    # Add my snake to the list of obstacle, but not the tail
+    for i in range(len(my_snake)-1):
+        obstacles.append(my_snake[i])
     for obs in obstacles:
         if (obs == up_location):
             move_rank["up"] = 0
