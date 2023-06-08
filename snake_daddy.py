@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import time
 import logging
+import os
 
 def info_daddy():
     return {
@@ -66,11 +67,13 @@ def is_adjacent_to_bigger_snakes(location):
 # See https://docs.battlesnake.com/api/example-move for available data
 def move_daddy(game_state: typing.Dict) -> typing.Dict:
     start_time = time.time()
-    logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
-    logFilePath = Path(__file__).parent / logFileName
-    json_file = open(logFilePath, "w")
-    json.dump(game_state, json_file, indent=4)
-    json_file.close()
+    deployment_mode = os.environ.get("deployment_mode")
+    if deployment_mode != "production":
+        logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
+        logFilePath = Path(__file__).parent / logFileName
+        json_file = open(logFilePath, "w")
+        json.dump(game_state, json_file, indent=4)
+        json_file.close()
 
     global my_head, my_body, my_snake_name, startLoc
     my_head = game_state["you"]["body"][0]  # Coordinates of your head
