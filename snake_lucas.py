@@ -7,7 +7,7 @@ def info_lucas():
     return {
         "apiversion": "1",
         "author": "lucas",  # TODO: Your Battlesnake Username
-        "color": "310000",  # TODO: Choose color
+        "color": "#310000",  # TODO: Choose color
         "head": "tongue",  # TODO: Choose head
         "tail": "hook",  # TODO: Choose tail
     }
