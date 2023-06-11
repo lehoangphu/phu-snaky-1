@@ -7,7 +7,7 @@ def info_lucas():
     return {
         "apiversion": "1",
         "author": "lucas",  # TODO: Your Battlesnake Username
-        "color": "#874719",  # TODO: Choose color
+        "color": "#ff0000",  # TODO: Choose color
         "head": "tongue",  # TODO: Choose head
         "tail": "round-bum",  # TODO: Choose tail
     }
@@ -41,8 +41,20 @@ def move_lucas(game_state: typing.Dict) -> typing.Dict:
         is_move_safe["up"] = False
 
     # TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
-    # board_width = game_state['board']['width']
-    # board_height = game_state['board']['height']
+    board_width = game_state['board']['width']
+    board_height = game_state['board']['height']
+    
+    if (my_head["x"] >= board_width):
+        is_move_safe["right"] = False
+
+    if (my_head["x"] <= 0):
+        is_move_safe["left"] = False
+        
+    if (my_head["y"] >= board_height):
+        is_move_safe["down"] = False
+
+    if (my_head["x"] <= 0 ):
+        is_move_safe["up"] = False        
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     # my_body = game_state['you']['body']
