@@ -3,6 +3,7 @@ import typing
 import json
 from pathlib import Path
 
+
 def info_lucastest():
     return {
         "apiversion": "1",
@@ -12,6 +13,7 @@ def info_lucastest():
         "tail": "hook",  # TODO: Choose tail
     }
 
+
 def move_lucas(game_state: typing.Dict) -> typing.Dict:
     logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
@@ -19,134 +21,106 @@ def move_lucas(game_state: typing.Dict) -> typing.Dict:
     json.dump(game_state, json_file, indent=4)
     json_file.close()
 
-    is_move_safe = {"up": True, "down": True, "left": True, "right": True}
+    my_snake_id = game_state["you"]["id"]
+    my_head = game_state["you"]["head"]
+    my_body = game_state["you"]["body"]
+    board_width = game_state["board"]["width"]
+    board_height = game_state["board"]["height"]
+    food_locations = game_state["board"]["food"]
+    snakes = game_state["board"]["snakes"]
 
-    # We've included code to prevent your Battlesnake from moving backwards
-    my_head = game_state["you"]["body"][0]  # Coordinates of your head
-    my_neck = game_state["you"]["body"][1]  # Coordinates of your "neck"
+    # Check if a move is safe or not
+    def is_move_safe(x: int, y: int) -> bool:
+        if x < 0 or x >= board_width or y < 0 or y >= board_height:
+            return False
+        for body_part in my_body[1:]:
+            if body_part["x"] == x and body_part["y"] == y:
+                return False
+        for snake in snakes:
+            if snake["id"] != my_snake_id:
+                for body_part in snake["body"]:
+                    if body_part["x"] == x and body_part["y"] == y:
+                        return False
+        return True
 
-    if my_neck["x"] < my_head["x"]:  # Neck is left of head, don't move left
-        is_move_safe["left"] = False
+    # Calculate the Manhattan distance between two points
+    def manhattan_distance(p1: typing.Dict, p2: typing.Dict) -> int:
+        return abs(p1["x"] - p2["x"]) + abs(p1["y"] - p2["y"])
 
-    elif my_neck["x"] > my_head["x"]:  # Neck is right of head, don't move right
-        is_move_safe["right"] = False
+    # Find the nearest food and its distance
+    def find_nearest_food() -> typing.Optional[typing.Dict]:
+        nearest_food = None
+        nearest_distance = float("inf")
+        for food in food_locations:
+            distance = manhattan_distance(my_head, food)
+            if distance < nearest_distance:
+                nearest_food = food
+                nearest_distance = distance
+        return nearest_food, nearest_distance
 
-    elif my_neck["y"] < my_head["y"]:  # Neck is below head, don't move down
-        is_move_safe["down"] = False
+    # Find the head of the snake with the longest body
+    def find_longest_snake_head() -> typing.Optional[typing.Dict]:
+        longest_snake_head = None
+        longest_snake_length = 0
+        for snake in snakes:
+            if snake["id"] != my_snake_id and len(snake["body"]) > longest_snake_length:
+                longest_snake_head = snake["head"]
+                longest_snake_length = len(snake["body"])
+        return longest_snake_head
 
-    elif my_neck["y"] > my_head["y"]:  # Neck is above head, don't move up
-        is_move_safe["up"] = False
-
-    # TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
-    board_width = game_state['board']['width']
-    board_height = game_state['board']['height']
-
-    if my_head["x"] >= board_width:
-        is_move_safe["right"] = False
-
-    if my_head["x"] <= 0:
-        is_move_safe["left"] = False
-
-    if my_head["y"] >= board_height:
-        is_move_safe["down"] = False
-
-    if my_head["y"] <= 0:
-        is_move_safe["up"] = False
-
-    # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
-    my_body = game_state['you']['body']
-    for body_part in my_body[1:]:
-        if my_head["y"] - 1 == body_part["y"] and my_head["x"] == body_part["x"]:
-            is_move_safe["up"] = False
-        elif my_head["y"] + 1 == body_part["y"] and my_head["x"] == body_part["x"]:
-            is_move_safe["down"] = False
-        elif my_head["x"] - 1 == body_part["x"] and my_head["y"] == body_part["y"]:
-            is_move_safe["left"] = False
-        elif my_head["x"] + 1 == body_part["x"] and my_head["y"] == body_part["y"]:
-            is_move_safe["right"] = False
-
-    # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
-    opponents = game_state['board']['snakes']
-    for snake in opponents:
-        for body_part in snake['body']:
-            if my_head["y"] - 1 == body_part["y"] and my_head["x"] == body_part["x"]:
-                is_move_safe["up"] = False
-            elif my_head["y"] + 1 == body_part["y"] and my_head["x"] == body_part["x"]:
-                is_move_safe["down"] = False
-            elif my_head["x"] - 1 == body_part["x"] and my_head["y"] == body_part["y"]:
-                is_move_safe["left"] = False
-            elif my_head["x"] + 1 == body_part["x"] and my_head["y"] == body_part["y"]:
-                is_move_safe["right"] = False
-
-    # Are there any safe moves left?
+    # Step 1: Prevent your Battlesnake from moving out of bounds
     safe_moves = []
-    for move, is_safe in is_move_safe.items():
-        if is_safe:
+    for move in ["up", "down", "left", "right"]:
+        next_x, next_y = get_next_position(my_head, move)
+        if is_move_safe(next_x, next_y):
             safe_moves.append(move)
 
-    if len(safe_moves) == 0:
+    if not safe_moves:
         print(f"MOVE {game_state['turn']}: No safe moves detected! Moving down")
         return {"move": "down"}
 
-    # TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
-    foods = game_state['board']['food']
-    if foods:
-        # Calculate the distances to all food items
-        distances = []
-        for food in foods:
-            distance = abs(food["x"] - my_head["x"]) + abs(food["y"] - my_head["y"])
-            distances.append(distance)
-
-        # Find the nearest food
-        min_distance = min(distances)
-        nearest_food_index = distances.index(min_distance)
-        nearest_food = foods[nearest_food_index]
-
-        # Determine the next move to get closer to the nearest food
+    # Step 2: Move towards the nearest food
+    nearest_food, food_distance = find_nearest_food()
+    if nearest_food:
         if nearest_food["x"] < my_head["x"]:
-            is_move_safe["left"] = True
-            is_move_safe["right"] = False
-            is_move_safe["up"] = False
-            is_move_safe["down"] = False
+            safe_moves = [move for move in safe_moves if move != "right"]
         elif nearest_food["x"] > my_head["x"]:
-            is_move_safe["left"] = False
-            is_move_safe["right"] = True
-            is_move_safe["up"] = False
-            is_move_safe["down"] = False
-        elif nearest_food["y"] < my_head["y"]:
-            is_move_safe["left"] = False
-            is_move_safe["right"] = False
-            is_move_safe["up"] = True
-            is_move_safe["down"] = False
+            safe_moves = [move for move in safe_moves if move != "left"]
+        if nearest_food["y"] < my_head["y"]:
+            safe_moves = [move for move in safe_moves if move != "down"]
         elif nearest_food["y"] > my_head["y"]:
-            is_move_safe["left"] = False
-            is_move_safe["right"] = False
-            is_move_safe["up"] = False
-            is_move_safe["down"] = True
+            safe_moves = [move for move in safe_moves if move != "up"]
 
-    # TODO: Step 5 - Trap Opponent
-    for snake in opponents:
-        if len(snake['body']) >= len(my_body):
-            opponent_head = snake['body'][0]
-            x_diff = opponent_head['x'] - my_head['x']
-            y_diff = opponent_head['y'] - my_head['y']
+    # Step 3: Trap the opponent with the longest body
+    longest_snake_head = find_longest_snake_head()
+    if longest_snake_head:
+        if longest_snake_head["x"] < my_head["x"]:
+            safe_moves = [move for move in safe_moves if move != "left"]
+        elif longest_snake_head["x"] > my_head["x"]:
+            safe_moves = [move for move in safe_moves if move != "right"]
+        if longest_snake_head["y"] < my_head["y"]:
+            safe_moves = [move for move in safe_moves if move != "up"]
+        elif longest_snake_head["y"] > my_head["y"]:
+            safe_moves = [move for move in safe_moves if move != "down"]
 
-            if abs(x_diff) < abs(y_diff):
-                if y_diff > 0:
-                    is_move_safe['up'] = False
-                else:
-                    is_move_safe['down'] = False
-            else:
-                if x_diff > 0:
-                    is_move_safe['left'] = False
-                else:
-                    is_move_safe['right'] = False
-
-    # Choose a random move from the safe ones
+    # Step 4: Choose a random move from the safe ones
     next_move = random.choice(safe_moves)
 
     print(f"MOVE {game_state['turn']}: {next_move}")
     return {"move": next_move}
+
+
+def get_next_position(position: typing.Dict, move: str) -> typing.Tuple[int, int]:
+    x, y = position["x"], position["y"]
+    if move == "up":
+        return x, y - 1
+    elif move == "down":
+        return x, y + 1
+    elif move == "left":
+        return x - 1, y
+    elif move == "right":
+        return x + 1, y
+
 
 if __name__ == "__main__":
     dataFilePath = Path(__file__).parent / "snake_lucas_test.json"
