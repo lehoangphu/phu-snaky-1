@@ -3,10 +3,10 @@ import typing
 import json
 from pathlib import Path
 
-def info_lucas():
+def info_lucastest():
     return {
         "apiversion": "1",
-        "author": "lucas",  # TODO: Your Battlesnake Username
+        "author": "lucastest",  # TODO: Your Battlesnake Username
         "color": "#ff0000",  # TODO: Choose color
         "head": "tongue",  # TODO: Choose head
         "tail": "hook",  # TODO: Choose tail
