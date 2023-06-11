@@ -9,7 +9,7 @@ def info_lucas():
         "author": "lucas",  # TODO: Your Battlesnake Username
         "color": "310000",  # TODO: Choose color
         "head": "tongue",  # TODO: Choose head
-        "tail": "round-bum",  # TODO: Choose tail
+        "tail": "hook",  # TODO: Choose tail
     }
 
 # move is called on every turn and returns your next move
