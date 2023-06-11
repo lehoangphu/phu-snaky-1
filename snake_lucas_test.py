@@ -82,7 +82,7 @@ def move_lucas(game_state: typing.Dict) -> typing.Dict:
     return {"move": next_move}
 
 if __name__ == "__main__":
-    dataFilePath = Path(__file__).parent / "snake_lucas.json"
+    dataFilePath = Path(__file__).parent / "snake_lucas_test.json"
     rhandle = open(dataFilePath, "r")
 
     gamestate = json.load(rhandle)
