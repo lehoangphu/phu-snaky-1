@@ -3,7 +3,7 @@ import typing
 import json
 from pathlib import Path
 
-def info_simple():
+def info_lucas():
     return {
         "apiversion": "1",
         "author": "lucas",  # TODO: Your Battlesnake Username
