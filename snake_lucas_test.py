@@ -124,6 +124,24 @@ def move_lucas(game_state: typing.Dict) -> typing.Dict:
             is_move_safe["up"] = False
             is_move_safe["down"] = True
 
+    # TODO: Step 5 - Trap Opponent
+    for snake in opponents:
+        if len(snake['body']) >= len(my_body):
+            opponent_head = snake['body'][0]
+            x_diff = opponent_head['x'] - my_head['x']
+            y_diff = opponent_head['y'] - my_head['y']
+
+            if abs(x_diff) < abs(y_diff):
+                if y_diff > 0:
+                    is_move_safe['up'] = False
+                else:
+                    is_move_safe['down'] = False
+            else:
+                if x_diff > 0:
+                    is_move_safe['left'] = False
+                else:
+                    is_move_safe['right'] = False
+
     # Choose a random move from the safe ones
     next_move = random.choice(safe_moves)
 
@@ -136,4 +154,4 @@ if __name__ == "__main__":
 
     gamestate = json.load(rhandle)
     rhandle.close()
-    print(move_lucas(gamestate))
+    print(move_lucastest(gamestate))
