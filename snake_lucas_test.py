@@ -12,9 +12,6 @@ def info_lucastest():
         "tail": "hook",  # TODO: Choose tail
     }
 
-# move is called on every turn and returns your next move
-# Valid moves are "up", "down", "left", or "right"
-# See https://docs.battlesnake.com/api/example-move for available data
 def move_lucas(game_state: typing.Dict) -> typing.Dict:
     logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
@@ -43,24 +40,43 @@ def move_lucas(game_state: typing.Dict) -> typing.Dict:
     # TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     board_width = game_state['board']['width']
     board_height = game_state['board']['height']
-    
-    if (my_head["x"] >= board_width):
+
+    if my_head["x"] >= board_width:
         is_move_safe["right"] = False
 
-    if (my_head["x"] <= 0):
+    if my_head["x"] <= 0:
         is_move_safe["left"] = False
-        
-    if (my_head["y"] >= board_height):
+
+    if my_head["y"] >= board_height:
         is_move_safe["down"] = False
 
-    if (my_head["x"] <= 0 ):
-        is_move_safe["up"] = False        
+    if my_head["y"] <= 0:
+        is_move_safe["up"] = False
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
-    # my_body = game_state['you']['body']
+    my_body = game_state['you']['body']
+    for body_part in my_body[1:]:
+        if my_head["y"] - 1 == body_part["y"] and my_head["x"] == body_part["x"]:
+            is_move_safe["up"] = False
+        elif my_head["y"] + 1 == body_part["y"] and my_head["x"] == body_part["x"]:
+            is_move_safe["down"] = False
+        elif my_head["x"] - 1 == body_part["x"] and my_head["y"] == body_part["y"]:
+            is_move_safe["left"] = False
+        elif my_head["x"] + 1 == body_part["x"] and my_head["y"] == body_part["y"]:
+            is_move_safe["right"] = False
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
-    # opponents = game_state['board']['snakes']
+    opponents = game_state['board']['snakes']
+    for snake in opponents:
+        for body_part in snake['body']:
+            if my_head["y"] - 1 == body_part["y"] and my_head["x"] == body_part["x"]:
+                is_move_safe["up"] = False
+            elif my_head["y"] + 1 == body_part["y"] and my_head["x"] == body_part["x"]:
+                is_move_safe["down"] = False
+            elif my_head["x"] - 1 == body_part["x"] and my_head["y"] == body_part["y"]:
+                is_move_safe["left"] = False
+            elif my_head["x"] + 1 == body_part["x"] and my_head["y"] == body_part["y"]:
+                is_move_safe["right"] = False
 
     # Are there any safe moves left?
     safe_moves = []
@@ -72,11 +88,44 @@ def move_lucas(game_state: typing.Dict) -> typing.Dict:
         print(f"MOVE {game_state['turn']}: No safe moves detected! Moving down")
         return {"move": "down"}
 
+    # TODO: Step 4 - Move towards food instead of random, to regain health and survive longer
+    foods = game_state['board']['food']
+    if foods:
+        # Calculate the distances to all food items
+        distances = []
+        for food in foods:
+            distance = abs(food["x"] - my_head["x"]) + abs(food["y"] - my_head["y"])
+            distances.append(distance)
+
+        # Find the nearest food
+        min_distance = min(distances)
+        nearest_food_index = distances.index(min_distance)
+        nearest_food = foods[nearest_food_index]
+
+        # Determine the next move to get closer to the nearest food
+        if nearest_food["x"] < my_head["x"]:
+            is_move_safe["left"] = True
+            is_move_safe["right"] = False
+            is_move_safe["up"] = False
+            is_move_safe["down"] = False
+        elif nearest_food["x"] > my_head["x"]:
+            is_move_safe["left"] = False
+            is_move_safe["right"] = True
+            is_move_safe["up"] = False
+            is_move_safe["down"] = False
+        elif nearest_food["y"] < my_head["y"]:
+            is_move_safe["left"] = False
+            is_move_safe["right"] = False
+            is_move_safe["up"] = True
+            is_move_safe["down"] = False
+        elif nearest_food["y"] > my_head["y"]:
+            is_move_safe["left"] = False
+            is_move_safe["right"] = False
+            is_move_safe["up"] = False
+            is_move_safe["down"] = True
+
     # Choose a random move from the safe ones
     next_move = random.choice(safe_moves)
-
-    # Step 4 - Move towards food instead of random, to regain health and survive longer
-    
 
     print(f"MOVE {game_state['turn']}: {next_move}")
     return {"move": next_move}
