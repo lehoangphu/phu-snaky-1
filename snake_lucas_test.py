@@ -1,114 +1,186 @@
-import random
-import typing
 import json
-from pathlib import Path
+from crow import SimpleApp
+from gameinfo import GameInfo, Point, Path
 
-def info_lucastest():
-    return {
-        "apiversion": "1",
-        "author": "lucastest",
-        "color": "#ff0000",
-        "head": "tongue",
-        "tail": "hook",
-    }
+# Constants
+NORTH = 0
+EAST = 1
+SOUTH = 2
+WEST = 3
+FOOD = "food"
+BUFFER = "buffer"
+WALL = "wall"
 
-def move_lucas(game_state: typing.Dict) -> typing.Dict:
-    logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
-    logFilePath = Path(__file__).parent / logFileName
-    json_file = open(logFilePath, "w")
-    json.dump(game_state, json_file, indent=4)
-    json_file.close()
+# Moves List
+moveslist = [NORTH, EAST, SOUTH, WEST]
 
-    my_head = game_state["you"]["body"][0]
-    my_body = set((part["x"], part["y"]) for part in game_state["you"]["body"][1:])
-    board_width = game_state["board"]["width"]
-    board_height = game_state["board"]["height"]
-    food_positions = set((food["x"], food["y"]) for food in game_state["board"]["food"])
+def findFallbackMove(game):
+    print("FALL BACK MOVE")
+    head = game.snake.getHead()
+    posmoves = []
+    freevec = []
+    
+    for m in moveslist:
+        p = head.addMove(m)
+        
+        if p.compare(game.snake.getTail()) and len(game.snake.coords) > 3:
+            return m
+        
+        free = game.getFreeSquares(head, 7)
+        
+        if game.isValid(p):
+            posmoves.append(m)
+            freevec.append(free)
+    
+    if not posmoves:
+        print("BUFFER")
+        for m in moveslist:
+            p = head.addMove(m)
+            if game.board.getCoord(p) == BUFFER:
+                posmoves.append(m)
+    
+    if not posmoves:
+        print("WALL")
+        for m in moveslist:
+            p = head.addMove(m)
+            if game.board.getCoord(p) == WALL:
+                posmoves.append(m)
+    
+    if not posmoves:
+        return 0
+    
+    max_free = max(freevec)
+    max_free_index = freevec.index(max_free)
+    return posmoves[max_free_index]
 
-    # Define all possible moves
-    moves = ["up", "down", "left", "right"]
 
-    # Check for immediate moves that lead to certain death
-    immediate_deaths = []
-    for move in moves:
-        next_position = get_next_position(my_head, move)
-        if (
-            is_out_of_bounds(next_position, board_width, board_height)
-            or is_collision(next_position, my_body, game_state["board"]["snakes"])
-        ):
-            immediate_deaths.append(move)
+def eat(game, path):
+    if len(path.path) > 1:
+        return path.getStepDir(0)
+    return findFallbackMove(game)
 
-    # If there are immediate deaths, remove them from the list of possible moves
-    if immediate_deaths:
-        moves = [move for move in moves if move not in immediate_deaths]
 
-    # If there are no possible moves, return a random safe move
-    if not moves:
-        print(f"MOVE {game_state['turn']}: No safe moves detected! Moving down")
-        return {"move": "down"}
+def orbit(game):
+    head = game.snake.getHead()
+    target = game.getOrbitTarget()
+    path = game.astarGraphSearch(head, target)
+    if len(path.path) > 1 and len(game.snake.coords) > 3:
+        return path.getStepDir(0)
+    return findFallbackMove(game)
 
-    # Calculate the distances to all food items
-    distances = []
-    for food in food_positions:
-        distance = manhattan_distance(my_head, food)
-        distances.append(distance)
 
-    # Find the nearest food
-    min_distance = min(distances)
-    nearest_food_index = distances.index(min_distance)
-    nearest_food = list(food_positions)[nearest_food_index]
+def findPathToNearestFood(game):
+    head = game.snake.getHead()
+    path = game.breadthFirstSearch(head, [FOOD], False)
+    return path
 
-    # Determine the best move towards the nearest food
-    best_move = None
-    if nearest_food[0] < my_head["x"] and "left" in moves:
-        best_move = "left"
-    elif nearest_food[0] > my_head["x"] and "right" in moves:
-        best_move = "right"
-    elif nearest_food[1] < my_head["y"] and "up" in moves:
-        best_move = "up"
-    elif nearest_food[1] > my_head["y"] and "down" in moves:
-        best_move = "down"
 
-    # If there is a best move, return it
-    if best_move:
-        print(f"MOVE {game_state['turn']}: {best_move}")
-        return {"move": best_move}
+def moveResponse(dir):
+    move = {}
+    if dir == NORTH:
+        move["move"] = "up"
+        move["taunt"] = "THE NORTH REMEMBERS"
+    elif dir == EAST:
+        move["move"] = "right"
+        move["taunt"] = "TO THE EAST"
+    elif dir == SOUTH:
+        move["move"] = "down"
+        move["taunt"] = "SOUTH WHERE ITS WARM"
+    elif dir == WEST:
+        move["move"] = "left"
+        move["taunt"] = "WEST IS BEST"
+    
+    return json.dumps(move)
 
-    # If no best move is found, choose a random safe move
-    next_move = random.choice(moves)
-    print(f"MOVE {game_state['turn']}: {next_move}")
-    return {"move": next_move}
 
-def get_next_position(position: dict, move: str) -> dict:
-    x, y = position["x"], position["y"]
-    if move == "up":
-        return {"x": x, "y": y + 1}
-    elif move == "down":
-        return {"x": x, "y": y - 1}
-    elif move == "left":
-        return {"x": x - 1, "y": y}
-    elif move == "right":
-        return {"x": x + 1, "y": y}
+def checkFreeSquares(game):
+    head = game.snake.getHead()
+    print("Free Moves")
+    for m in moveslist:
+        p = head.addMove(m)
+        free = 0
+        
+        if game.isValid(p):
+            free = game.getFreeSquares(p, 10)
+        
+        print(free, end=" ")
+    
+    print()
 
-def is_out_of_bounds(position: dict, width: int, height: int) -> bool:
-    x, y = position["x"], position["y"]
-    return x < 0 or x >= width or y < 0 or y >= height
 
-def is_collision(position: dict, body: set, snakes: list) -> bool:
-    x, y = position["x"], position["y"]
-    if (x, y) in body:
-        return True
-    for snake in snakes:
-        if (x, y) in set((part["x"], part["y"]) for part in snake["body"]):
-            return True
+def isClose(game, point, psize, radius):
+    for snake in game.snakes:
+        if snake.id != game.snake.id:
+            if snake.getHead().manDist(point) <= radius:
+                return True
     return False
 
-def manhattan_distance(pos1: dict, pos2: dict) -> int:
-    return abs(pos1["x"] - pos2[0]) + abs(pos1["y"] - pos2[1])
+
+def decideExcecute(game):
+    checkFreeSquares(game)
+    
+    foodpath = findPathToNearestFood(game)
+    fsize = len(foodpath.path)
+    ssize = len(game.snake.coords)
+    
+    buffer = 10
+    if ssize > 12:
+        buffer = 35
+    
+    if isClose(game, foodpath.getLast(), fsize, 5):
+        print("IS CLOSE EAT")
+        return eat(game, foodpath)
+    
+    if len(game.snake.coords) < 10:
+        return eat(game, foodpath)
+    
+    if game.snake.health < (fsize + buffer):
+        return eat(game, foodpath)
+    
+    if fsize > ssize:
+        return eat(game, foodpath)
+    
+    return orbit(game)
+
+
+def SnakeInfo():
+    info = {}
+    info["color"] = "#000F00"
+    info["head_url"] = "http://pets.wilco.org/Portals/7/Containers/Pets2011/images/star.png"
+    info["taunt"] = "C++ is a superior language"
+    info["name"] = "leks"
+    return json.dumps(info)
+
+
+def initSnakeApp():
+    app = SimpleApp()
+    
+    # INFO
+    @app.route("/")
+    def info():
+        return SnakeInfo()
+    
+    # START
+    @app.route("/start", methods=["POST"])
+    def start():
+        return SnakeInfo()
+    
+    # MOVE
+    @app.route("/move", methods=["POST"])
+    def move():
+        game = GameInfo(request.body)
+        move = decideExcecute(game)
+        return moveResponse(move)
+    
+    return app
+
 
 if __name__ == "__main__":
-    dataFilePath = Path(__file__).parent / "snake_lucas_test.json"
-    rhandle = open(dataFilePath, "r")
-    gamestate = json.load(rhandle)
-    rhandle.close()
-    print(move_lucastest(gamestate))
+    import sys
+    
+    port = 7000
+    if len(sys.argv) == 2:
+        port = int(sys.argv[1])
+    
+    app = initSnakeApp()
+    app.port(port).multithreaded().run()
