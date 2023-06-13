@@ -10,8 +10,8 @@ def info_peter():
         "apiversion": "1",
         "author": "Peter",  # TODO: Your Battlesnake Username
         "color": "#000000",  # TODO: Choose color
-        "head": "tongue",  # TODO: Choose head
-        "tail": "hook",  # TODO: Choose tail
+        "head": "all-seeing",  # TODO: Choose head
+        "tail": "flytrap",  # TODO: Choose tail
     }
 
 # move is called on every turn and returns your next move
