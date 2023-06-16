@@ -3,7 +3,7 @@ import typing
 import json
 from pathlib import Path
 
-def info_simple():
+def info():
     return {
         "apiversion": "1",
         "author": "Simple",  # TODO: Your Battlesnake Username
@@ -15,7 +15,7 @@ def info_simple():
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
-def move_simple(game_state: typing.Dict) -> typing.Dict:
+def move(game_state: typing.Dict) -> typing.Dict:
     logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
     json_file = open(logFilePath, "w")
@@ -75,4 +75,4 @@ if __name__ == "__main__":
 
     gamestate = json.load(rhandle)
     rhandle.close()
-    print(move_simple(gamestate))
+    print(move(gamestate))

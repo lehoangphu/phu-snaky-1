@@ -19,17 +19,26 @@ def on_root():
 @app.get("/<username>/")
 def on_info(username):
     module_name = "snake_" + username
-    function_name = "info_" + username  
+    function_name_short = "info"
+    function_name_full = "info_" + username  
     module = __import__(module_name)
-    func_to_run = getattr(module, function_name)
+    try:
+        func_to_run = getattr(module, function_name_short)
+    except AttributeError:
+        func_to_run = getattr(module, function_name_full)
+        
     return func_to_run()
 
 @app.post("/<username>/move")
 def on_move(username):
     module_name = "snake_" + username
-    function_name = "move_" + username  
+    function_name_short = "move"
+    function_name_full = "move_" + username   
     module = __import__(module_name)
-    func_to_run = getattr(module, function_name)
+    try:
+        func_to_run = getattr(module, function_name_short)
+    except AttributeError:
+        func_to_run = getattr(module, function_name_full)
     game_state = request.get_json()
     return func_to_run(game_state)
 
