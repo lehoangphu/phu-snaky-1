@@ -3,19 +3,19 @@ import typing
 import json
 from pathlib import Path
 
-def info():
+def info_lucas():
     return {
         "apiversion": "1",
-        "author": "Simple",  # TODO: Your Battlesnake Username
-        "color": "#874719",  # TODO: Choose color
+        "author": "lucas",  # TODO: Your Battlesnake Username
+        "color": "#ff0000",  # TODO: Choose color
         "head": "tongue",  # TODO: Choose head
-        "tail": "round-bum",  # TODO: Choose tail
+        "tail": "hook",  # TODO: Choose tail
     }
 
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
-def move(game_state: typing.Dict) -> typing.Dict:
+def move_lucas(game_state: typing.Dict) -> typing.Dict:
     logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
     json_file = open(logFilePath, "w")
@@ -41,8 +41,20 @@ def move(game_state: typing.Dict) -> typing.Dict:
         is_move_safe["up"] = False
 
     # TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
-    # board_width = game_state['board']['width']
-    # board_height = game_state['board']['height']
+    board_width = game_state['board']['width']
+    board_height = game_state['board']['height']
+    
+    if (my_head["x"] >= board_width):
+        is_move_safe["right"] = False
+
+    if (my_head["x"] <= 0):
+        is_move_safe["left"] = False
+        
+    if (my_head["y"] >= board_height):
+        is_move_safe["down"] = False
+
+    if (my_head["x"] <= 0 ):
+        is_move_safe["up"] = False        
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     # my_body = game_state['you']['body']
@@ -70,9 +82,9 @@ def move(game_state: typing.Dict) -> typing.Dict:
     return {"move": next_move}
 
 if __name__ == "__main__":
-    dataFilePath = Path(__file__).parent / "snake_simple.json"
+    dataFilePath = Path(__file__).parent / "snake_lucas.json"
     rhandle = open(dataFilePath, "r")
 
     gamestate = json.load(rhandle)
     rhandle.close()
-    print(move(gamestate))
+    print(move_lucas(gamestate))

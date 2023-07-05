@@ -1,0 +1,254 @@
+{
+    "game": {
+        "id": "7bbb6019-fd24-4ed9-8152-b7cc3f388c71",
+        "ruleset": {
+            "name": "standard",
+            "version": "v1.2.3",
+            "settings": {
+                "foodSpawnChance": 15,
+                "minimumFood": 1,
+                "hazardDamagePerTurn": 0,
+                "hazardMap": "",
+                "hazardMapAuthor": "",
+                "royale": {
+                    "shrinkEveryNTurns": 0
+                },
+                "squad": {
+                    "allowBodyCollisions": false,
+                    "sharedElimination": false,
+                    "sharedHealth": false,
+                    "sharedLength": false
+                }
+            }
+        },
+        "map": "standard",
+        "timeout": 500,
+        "source": "custom"
+    },
+    "turn": 4,
+    "board": {
+        "height": 11,
+        "width": 11,
+        "snakes": [
+            {
+                "id": "gs_kcKfw34FkvdRxPhrv3DjjG8c",
+                "name": "thai_test",
+                "latency": "291",
+                "health": 96,
+                "body": [
+                    {
+                        "x": 2,
+                        "y": 2
+                    },
+                    {
+                        "x": 2,
+                        "y": 3
+                    },
+                    {
+                        "x": 2,
+                        "y": 4
+                    }
+                ],
+                "head": {
+                    "x": 2,
+                    "y": 2
+                },
+                "length": 3,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#874719",
+                    "head": "tongue",
+                    "tail": "round-bum"
+                }
+            },
+            {
+                "id": "gs_Bt8DjWc7BqjWTVxxVbhVcYJ8",
+                "name": "Hungry Bot",
+                "latency": "1",
+                "health": 98,
+                "body": [
+                    {
+                        "x": 6,
+                        "y": 10
+                    },
+                    {
+                        "x": 5,
+                        "y": 10
+                    },
+                    {
+                        "x": 4,
+                        "y": 10
+                    },
+                    {
+                        "x": 4,
+                        "y": 9
+                    }
+                ],
+                "head": {
+                    "x": 6,
+                    "y": 10
+                },
+                "length": 4,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#00cc00",
+                    "head": "alligator",
+                    "tail": "alligator"
+                }
+            },
+            {
+                "id": "gs_mv8jwFVQqvtgWkwfRkX6DrMY",
+                "name": "Scared Bot",
+                "latency": "1",
+                "health": 96,
+                "body": [
+                    {
+                        "x": 3,
+                        "y": 1
+                    },
+                    {
+                        "x": 3,
+                        "y": 2
+                    },
+                    {
+                        "x": 4,
+                        "y": 2
+                    }
+                ],
+                "head": {
+                    "x": 3,
+                    "y": 1
+                },
+                "length": 3,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#000000",
+                    "head": "bendr",
+                    "tail": "curled"
+                }
+            },
+            {
+                "id": "gs_fVBxqQTGgFYX9mY8WhPHc8F8",
+                "name": "Loopy Bot",
+                "latency": "1",
+                "health": 96,
+                "body": [
+                    {
+                        "x": 9,
+                        "y": 5
+                    },
+                    {
+                        "x": 9,
+                        "y": 4
+                    },
+                    {
+                        "x": 8,
+                        "y": 4
+                    }
+                ],
+                "head": {
+                    "x": 9,
+                    "y": 5
+                },
+                "length": 3,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#800080",
+                    "head": "caffeine",
+                    "tail": "iguana"
+                }
+            },
+            {
+                "id": "gs_m7hpYQXQPTjp9RFJwwfg87g6",
+                "name": "DaddySnake",
+                "latency": "175",
+                "health": 100,
+                "body": [
+                    {
+                        "x": 0,
+                        "y": 4
+                    },
+                    {
+                        "x": 0,
+                        "y": 3
+                    },
+                    {
+                        "x": 0,
+                        "y": 2
+                    },
+                    {
+                        "x": 1,
+                        "y": 2
+                    },
+                    {
+                        "x": 1,
+                        "y": 2
+                    }
+                ],
+                "head": {
+                    "x": 0,
+                    "y": 4
+                },
+                "length": 5,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#0066ff",
+                    "head": "bendr",
+                    "tail": "curled"
+                }
+            }
+        ],
+        "food": [
+            {
+                "x": 4,
+                "y": 0
+            },
+            {
+                "x": 10,
+                "y": 4
+            },
+            {
+                "x": 5,
+                "y": 5
+            }
+        ],
+        "hazards": []
+    },
+    "you": {
+        "id": "gs_kcKfw34FkvdRxPhrv3DjjG8c",
+        "name": "thai_test",
+        "latency": "291",
+        "health": 96,
+        "body": [
+            {
+                "x": 2,
+                "y": 2
+            },
+            {
+                "x": 2,
+                "y": 3
+            },
+            {
+                "x": 2,
+                "y": 4
+            }
+        ],
+        "head": {
+            "x": 2,
+            "y": 2
+        },
+        "length": 3,
+        "shout": "",
+        "squad": "",
+        "customizations": {
+            "color": "#874719",
+            "head": "tongue",
+            "tail": "round-bum"
+        }
+    }
+}

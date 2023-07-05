@@ -3,10 +3,10 @@ import typing
 import json
 from pathlib import Path
 
-def info():
+def info_thai():
     return {
         "apiversion": "1",
-        "author": "Simple",  # TODO: Your Battlesnake Username
+        "author": "thai",  # TODO: Your Battlesnake Username
         "color": "#874719",  # TODO: Choose color
         "head": "tongue",  # TODO: Choose head
         "tail": "round-bum",  # TODO: Choose tail
@@ -15,7 +15,7 @@ def info():
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
-def move(game_state: typing.Dict) -> typing.Dict:
+def move_thai(game_state: typing.Dict) -> typing.Dict:
     logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
     logFilePath = Path(__file__).parent / logFileName
     json_file = open(logFilePath, "w")
@@ -41,14 +41,45 @@ def move(game_state: typing.Dict) -> typing.Dict:
         is_move_safe["up"] = False
 
     # TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
-    # board_width = game_state['board']['width']
-    # board_height = game_state['board']['height']
+    board_width = game_state['board']['width']
+    board_height = game_state['board']['height']
+    if my_head["x"] == 0 :
+        is_move_safe["left"] = False
+    if my_head["x"] == board_width - 1:
+        is_move_safe["right"] = False
+    if my_head["y"] == 0:
+        is_move_safe["down"] = False
+    if my_head["y"] == board_height - 1:
+        is_move_safe["up"] = False
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
-    # my_body = game_state['you']['body']
+    my_body = game_state['you']['body']
+    for part in my_body:
+        if my_head["x"] == part["x"]:
+            if part["y"] == my_head['y'] + 1:
+                is_move_safe["up"] = False
+            if part["y"] == my_head['y'] - 1:
+                is_move_safe["down"] = False
+        if my_head["y"] == part["y"]:
+            if part["x"] == my_head['x'] + 1:
+                is_move_safe["right"] = False
+            if part["x"] == my_head['x'] - 1:
+                is_move_safe["left"] = False
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
-    # opponents = game_state['board']['snakes']
+    opponents = game_state['board']['snakes']
+    for other in opponents:
+        for cell in other["body"]:
+            if my_head["x"] == cell["x"]:
+                if cell["y"] == my_head['y'] + 1:
+                    is_move_safe["up"] = False
+                if cell["y"] == my_head['y'] - 1:
+                    is_move_safe["down"] = False
+            if my_head["y"] == cell["y"]:
+                if cell["x"] == my_head['x'] + 1:
+                    is_move_safe["right"] = False
+                if cell["x"] == my_head['x'] - 1:
+                    is_move_safe["left"] = False
 
     # Are there any safe moves left?
     safe_moves = []
@@ -70,9 +101,9 @@ def move(game_state: typing.Dict) -> typing.Dict:
     return {"move": next_move}
 
 if __name__ == "__main__":
-    dataFilePath = Path(__file__).parent / "snake_simple.json"
+    dataFilePath = Path(__file__).parent / "snake_thai.json"
     rhandle = open(dataFilePath, "r")
 
     gamestate = json.load(rhandle)
     rhandle.close()
-    print(move(gamestate))
+    print(move_thai(gamestate))
