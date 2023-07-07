@@ -3,6 +3,7 @@ import typing
 import json
 from pathlib import Path
 import time
+import os
 
 def info_bruce():
     return {
@@ -17,11 +18,14 @@ def info_bruce():
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
 def move_bruce(game_state: typing.Dict) -> typing.Dict:
-    logFileName = "logs/turn_" + str(game_state["turn"]+1) + ".json"
-    logFilePath = Path(__file__).parent / logFileName
-    json_file = open(logFilePath, "w")
-    json.dump(game_state, json_file)
-    json_file.close()
+    starttime = time.time()
+    deployment_mode = os.environ.get("deployment_mode")
+    if deployment_mode != "production":
+        logFileName = "logs/bruceturn_" + str(game_state["turn"]+1) + ".json"
+        logFilePath = Path(__file__).parent / logFileName
+        json_file = open(logFilePath, "w")
+        json.dump(game_state, json_file)
+        json_file.close()
 
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 
@@ -68,7 +72,18 @@ def move_bruce(game_state: typing.Dict) -> typing.Dict:
 
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
-    # opponents = game_state['board']['snakes']
+    opponents = game_state['board']['snakes']
+    for snake in opponents:
+        for part in snake['body']:
+            if my_head["x"]+1 ==part["x"] and my_head["y"] ==part["y"]:
+                is_move_safe["right"]=False
+            if my_head["x"]-1 ==part["x"] and my_head["y"] ==part["y"]:
+                is_move_safe["left"]=False
+            if my_head["y"]+1 ==part["y"] and my_head["x"] ==part["x"]:
+                is_move_safe["up"]=False
+            if my_head["y"]-1 ==part["y"] and my_head["x"] ==part["x"]:
+                is_move_safe["down"]=False
+
 
     # Are there any safe moves left?
     safe_moves = []
@@ -84,9 +99,10 @@ def move_bruce(game_state: typing.Dict) -> typing.Dict:
     next_move = random.choice(safe_moves)
 
     # Step 4 - Move towards food instead of random, to regain health and survive longer
-    
+
 
     print(f"MOVE {game_state['turn']}: {next_move}")
+    print("elapsed time: ", (time.time() - starttime) * 1000)
     return {"move": next_move}
 
 if __name__ == "__main__":
