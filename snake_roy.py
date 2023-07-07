@@ -2,30 +2,25 @@ import random
 import typing
 import json
 from pathlib import Path
-import time
-import os
 
-def info_bruce():
+def info():
     return {
         "apiversion": "1",
-        "author": "bruce",  # TODO: Your Battlesnake Username
-        "color": "#FF2400",  # TODO: Choose color
-        "head": "fang",  # TODO: Choose head
-        "tail": "curled",  # TODO: Choose tail
+        "author": "Roy",  # TODO: Your Battlesnake Username
+        "color": "#ffff00",  # TODO: Choose color
+        "head": "all-seeing",  # TODO: Choose head
+        "tail": "bolt",  # TODO: Choose tail
     }
 
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
-def move_bruce(game_state: typing.Dict) -> typing.Dict:
-    starttime = time.time()
-    deployment_mode = os.environ.get("deployment_mode")
-    if deployment_mode != "production":
-        logFileName = "logs/bruceturn_" + str(game_state["turn"]+1) + ".json"
-        logFilePath = Path(__file__).parent / logFileName
-        json_file = open(logFilePath, "w")
-        json.dump(game_state, json_file)
-        json_file.close()
+def move(game_state: typing.Dict) -> typing.Dict:
+    logFileName = "logs/royturn_" + str(game_state["turn"]) + ".json"
+    logFilePath = Path(__file__).parent / logFileName
+    json_file = open(logFilePath, "w")
+    json.dump(game_state, json_file, indent=4)
+    json_file.close()
 
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 
@@ -48,42 +43,39 @@ def move_bruce(game_state: typing.Dict) -> typing.Dict:
     # TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
     board_width = game_state['board']['width']
     board_height = game_state['board']['height']
-    if my_head["x"]==0:
-        is_move_safe["left"]=False
-    if my_head["x"]==board_width-1:
-        is_move_safe["right"]=False
-    
-    if my_head["y"]==0:
-        is_move_safe["down"]=False
-    if my_head["y"]==board_width-1:
-        is_move_safe["up"]=False
+    if my_head["x"] == 0:
+        is_move_safe["left"] = False
+    if my_head["x"] == board_width-1:
+        is_move_safe["right"] = False
+    if my_head["y"] == 0:
+        is_move_safe["down"] = False
+    if my_head["y"] == board_width-1:
+        is_move_safe["up"] = False
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     my_body = game_state['you']['body']
     for part in my_body:
-        if my_head["x"]+1 ==part["x"] and my_head["y"] ==part["y"]:
-            is_move_safe["right"]=False
-        if my_head["x"]-1 ==part["x"] and my_head["y"] ==part["y"]:
-            is_move_safe["left"]=False
-        if my_head["y"]+1 ==part["y"] and my_head["x"] ==part["x"]:
-            is_move_safe["up"]=False
-        if my_head["y"]-1 ==part["y"] and my_head["x"] ==part["x"]:
-            is_move_safe["down"]=False
-
+        if my_head["x"]-1 == part["x"] and my_head["y"] == part["y"]:
+            is_move_safe["left"] = False
+        if my_head["x"]+1 == part["x"] and my_head["y"] == part["y"]:
+            is_move_safe["right"] = False
+        if my_head["y"]-1 == part["y"] and my_head["x"] == part["x"]:
+            is_move_safe["down"] = False
+        if my_head["y"]+1 == part["y"] and my_head["x"] == part["x"]:
+            is_move_safe["up"] = False
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
     opponents = game_state['board']['snakes']
     for snake in opponents:
-        for part in snake['body']:
-            if my_head["x"]+1 ==part["x"] and my_head["y"] ==part["y"]:
-                is_move_safe["right"]=False
-            if my_head["x"]-1 ==part["x"] and my_head["y"] ==part["y"]:
-                is_move_safe["left"]=False
-            if my_head["y"]+1 ==part["y"] and my_head["x"] ==part["x"]:
-                is_move_safe["up"]=False
-            if my_head["y"]-1 ==part["y"] and my_head["x"] ==part["x"]:
-                is_move_safe["down"]=False
-
+        for part in snake["body"]:
+            if my_head["x"]-1 == part["x"] and my_head["y"] == part["y"]:
+                is_move_safe["left"] = False
+            if my_head["x"]+1 == part["x"] and my_head["y"] == part["y"]:
+                is_move_safe["right"] = False
+            if my_head["y"]-1 == part["y"] and my_head["x"] == part["x"]:
+                is_move_safe["down"] = False
+            if my_head["y"]+1 == part["y"] and my_head["x"] == part["x"]:
+                is_move_safe["up"] = False
 
     # Are there any safe moves left?
     safe_moves = []
@@ -99,17 +91,15 @@ def move_bruce(game_state: typing.Dict) -> typing.Dict:
     next_move = random.choice(safe_moves)
 
     # Step 4 - Move towards food instead of random, to regain health and survive longer
-
+    
 
     print(f"MOVE {game_state['turn']}: {next_move}")
-    print("elapsed time: ", (time.time() - starttime) * 1000)
     return {"move": next_move}
 
 if __name__ == "__main__":
-    dataFilePath = Path(__file__).parent / "snake_bruce.json"
+    dataFilePath = Path(__file__).parent / "snake_roy.json"
     rhandle = open(dataFilePath, "r")
 
     gamestate = json.load(rhandle)
     rhandle.close()
-
-    print(move_bruce(gamestate))
+    print(move(gamestate))

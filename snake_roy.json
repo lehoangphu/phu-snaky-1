@@ -1,0 +1,122 @@
+{
+    "game": {
+        "id": "a4f3e095-0ca7-4ad7-9b87-39cb91626a17",
+        "ruleset": {
+            "name": "standard",
+            "version": "v1.2.3",
+            "settings": {
+                "foodSpawnChance": 15,
+                "minimumFood": 1,
+                "hazardDamagePerTurn": 0,
+                "hazardMap": "",
+                "hazardMapAuthor": "",
+                "royale": {
+                    "shrinkEveryNTurns": 0
+                },
+                "squad": {
+                    "allowBodyCollisions": false,
+                    "sharedElimination": false,
+                    "sharedHealth": false,
+                    "sharedLength": false
+                }
+            }
+        },
+        "map": "standard",
+        "timeout": 500,
+        "source": "custom"
+    },
+    "turn": 10,
+    "board": {
+        "height": 11,
+        "width": 11,
+        "snakes": [
+            {
+                "id": "gs_jrHBp8mSSmvDRKG8jbKF3Qt3",
+                "name": "Fat Roy Snake Test",
+                "latency": "280",
+                "health": 92,
+                "body": [
+                    {
+                        "x": 7,
+                        "y": 5
+                    },
+                    {
+                        "x": 8,
+                        "y": 5
+                    },
+                    {
+                        "x": 8,
+                        "y": 4
+                    },
+                    {
+                        "x": 8,
+                        "y": 3
+                    }
+                ],
+                "head": {
+                    "x": 7,
+                    "y": 5
+                },
+                "length": 4,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#ffff00",
+                    "head": "all-seeing",
+                    "tail": "bolt"
+                }
+            }
+        ],
+        "food": [
+            {
+                "x": 5,
+                "y": 5
+            },
+            {
+                "x": 6,
+                "y": 3
+            },
+            {
+                "x": 4,
+                "y": 6
+            }
+        ],
+        "hazards": []
+    },
+    "you": {
+        "id": "gs_jrHBp8mSSmvDRKG8jbKF3Qt3",
+        "name": "Fat Roy Snake Test",
+        "latency": "280",
+        "health": 92,
+        "body": [
+            {
+                "x": 7,
+                "y": 5
+            },
+            {
+                "x": 8,
+                "y": 5
+            },
+            {
+                "x": 8,
+                "y": 4
+            },
+            {
+                "x": 8,
+                "y": 3
+            }
+        ],
+        "head": {
+            "x": 7,
+            "y": 5
+        },
+        "length": 4,
+        "shout": "",
+        "squad": "",
+        "customizations": {
+            "color": "#ffff00",
+            "head": "all-seeing",
+            "tail": "bolt"
+        }
+    }
+}
