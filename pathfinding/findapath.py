@@ -1,4 +1,7 @@
-      
+def findapath(startLoc, endLoc, obstacles):
+    finder = PathFinder(startLoc, endLoc, obstacles, 11, 11)
+    return finder.findthepath()
+     
 class PathEntry:
     def __init__(self, location) -> None:
         self.location = location
@@ -61,23 +64,59 @@ class PathFinder:
         return False
 
 def basicTest1():
-    startLoc = Location(0,0)
-    destination = Location(8,8)
-    obstacles = [
-        Location(4, 0),
-        Location(4, 1),
-        Location(4, 2),
-        Location(4, 3),
-        Location(4, 4),
-        Location(4, 5),
-        Location(4, 6),
-        Location(4, 7),
-        Location(4, 8),
-        Location(4, 9)
-    ]
-    finder = PathFinder(startLoc, destination, obstacles, 11, 11)
+    start = {"x": 0, "y": 0}
+    end = {"x": 8, "y": 8}
+    snakes = [
+        {
+          "id": "snake-508e96ac-94ad-11ea-bb37",
+          "name": "My Snake",
+          "health": 54,
+          "body": [
+            {"x": 0, "y": 0}, 
+            {"x": 1, "y": 0}, 
+            {"x": 2, "y": 0}
+          ],
+          "latency": "111",
+          "head": {"x": 0, "y": 0},
+          "length": 3,
+          "shout": "why are we shouting??",
+          "customizations":{
+            "color":"#FF0000",
+            "head":"pixel",
+            "tail":"pixel"
+          }
+        }, 
+        {
+          "id": "snake-b67f4906-94ae-11ea-bb37",
+          "name": "Another Snake",
+          "health": 16,
+          "body": [
+            {"x": 5, "y": 4}, 
+            {"x": 5, "y": 3}, 
+            {"x": 6, "y": 3},
+            {"x": 6, "y": 2}
+          ],
+          "latency": "222",
+          "head": {"x": 5, "y": 4},
+          "length": 4,
+          "shout": "I'm not really sure...",
+          "customizations":{
+            "color":"#26CF04",
+            "head":"silly",
+            "tail":"curled"
+          }
+        }
+      ]
     
-    finder.findthepath()
+    obstacles = []
+    for snake in snakes:
+        for position in snake["body"]:
+            obstacles.append(Location(position["x"],position["y"]))
+    startLoc = Location(start["x"], start["y"])
+    endLoc = Location(end["x"], end["y"])
+
+    print(findapath(startLoc, endLoc, obstacles))
+
 
 if __name__ == "__main__":
     # peterpath.py is being run directly

@@ -1,6 +1,6 @@
 import random
 import typing
-from pathfinding.peterpath import Location
+from pathfinding.location import Location
 from pathfinding.peterpath import PathFinder
 import json
 from pathlib import Path
