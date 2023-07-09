@@ -1,0 +1,306 @@
+{
+    "game": {
+        "id": "424fda0c-600c-494b-8f06-89e65b14f558",
+        "ruleset": {
+            "name": "standard",
+            "version": "v1.2.3",
+            "settings": {
+                "foodSpawnChance": 15,
+                "minimumFood": 1,
+                "hazardDamagePerTurn": 0,
+                "hazardMap": "",
+                "hazardMapAuthor": "",
+                "royale": {
+                    "shrinkEveryNTurns": 0
+                },
+                "squad": {
+                    "allowBodyCollisions": false,
+                    "sharedElimination": false,
+                    "sharedHealth": false,
+                    "sharedLength": false
+                }
+            }
+        },
+        "map": "standard",
+        "timeout": 500,
+        "source": "custom"
+    },
+    "turn": 150,
+    "board": {
+        "height": 11,
+        "width": 11,
+        "snakes": [
+            {
+                "id": "gs_3gvjhdYcxpvpQ8BtVKBh4yq3",
+                "name": "DaddySnake",
+                "latency": "78",
+                "health": 100,
+                "body": [
+                    {
+                        "x": 10,
+                        "y": 0
+                    },
+                    {
+                        "x": 10,
+                        "y": 1
+                    },
+                    {
+                        "x": 10,
+                        "y": 2
+                    },
+                    {
+                        "x": 10,
+                        "y": 3
+                    },
+                    {
+                        "x": 9,
+                        "y": 3
+                    },
+                    {
+                        "x": 9,
+                        "y": 4
+                    },
+                    {
+                        "x": 9,
+                        "y": 5
+                    },
+                    {
+                        "x": 9,
+                        "y": 6
+                    },
+                    {
+                        "x": 8,
+                        "y": 6
+                    },
+                    {
+                        "x": 8,
+                        "y": 5
+                    },
+                    {
+                        "x": 8,
+                        "y": 4
+                    },
+                    {
+                        "x": 8,
+                        "y": 3
+                    },
+                    {
+                        "x": 8,
+                        "y": 3
+                    }
+                ],
+                "head": {
+                    "x": 10,
+                    "y": 0
+                },
+                "length": 13,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#0066ff",
+                    "head": "bendr",
+                    "tail": "curled"
+                }
+            },
+            {
+                "id": "gs_YQrrkbTbDTbHtcKcRx84QMtG",
+                "name": "test_daddy",
+                "latency": "287",
+                "health": 100,
+                "body": [
+                    {
+                        "x": 0,
+                        "y": 10
+                    },
+                    {
+                        "x": 1,
+                        "y": 10
+                    },
+                    {
+                        "x": 2,
+                        "y": 10
+                    },
+                    {
+                        "x": 3,
+                        "y": 10
+                    },
+                    {
+                        "x": 4,
+                        "y": 10
+                    },
+                    {
+                        "x": 5,
+                        "y": 10
+                    },
+                    {
+                        "x": 5,
+                        "y": 9
+                    },
+                    {
+                        "x": 5,
+                        "y": 8
+                    },
+                    {
+                        "x": 5,
+                        "y": 7
+                    },
+                    {
+                        "x": 5,
+                        "y": 6
+                    },
+                    {
+                        "x": 4,
+                        "y": 6
+                    },
+                    {
+                        "x": 3,
+                        "y": 6
+                    },
+                    {
+                        "x": 2,
+                        "y": 6
+                    },
+                    {
+                        "x": 1,
+                        "y": 6
+                    },
+                    {
+                        "x": 1,
+                        "y": 7
+                    },
+                    {
+                        "x": 1,
+                        "y": 8
+                    },
+                    {
+                        "x": 1,
+                        "y": 9
+                    },
+                    {
+                        "x": 0,
+                        "y": 9
+                    },
+                    {
+                        "x": 0,
+                        "y": 9
+                    }
+                ],
+                "head": {
+                    "x": 0,
+                    "y": 10
+                },
+                "length": 19,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#0066ff",
+                    "head": "bendr",
+                    "tail": "curled"
+                }
+            }
+        ],
+        "food": [
+            {
+                "x": 7,
+                "y": 1
+            }
+        ],
+        "hazards": []
+    },
+    "you": {
+        "id": "gs_YQrrkbTbDTbHtcKcRx84QMtG",
+        "name": "test_daddy",
+        "latency": "287",
+        "health": 100,
+        "body": [
+            {
+                "x": 0,
+                "y": 10
+            },
+            {
+                "x": 1,
+                "y": 10
+            },
+            {
+                "x": 2,
+                "y": 10
+            },
+            {
+                "x": 3,
+                "y": 10
+            },
+            {
+                "x": 4,
+                "y": 10
+            },
+            {
+                "x": 5,
+                "y": 10
+            },
+            {
+                "x": 5,
+                "y": 9
+            },
+            {
+                "x": 5,
+                "y": 8
+            },
+            {
+                "x": 5,
+                "y": 7
+            },
+            {
+                "x": 5,
+                "y": 6
+            },
+            {
+                "x": 4,
+                "y": 6
+            },
+            {
+                "x": 3,
+                "y": 6
+            },
+            {
+                "x": 2,
+                "y": 6
+            },
+            {
+                "x": 1,
+                "y": 6
+            },
+            {
+                "x": 1,
+                "y": 7
+            },
+            {
+                "x": 1,
+                "y": 8
+            },
+            {
+                "x": 1,
+                "y": 9
+            },
+            {
+                "x": 0,
+                "y": 9
+            },
+            {
+                "x": 0,
+                "y": 9
+            }
+        ],
+        "head": {
+            "x": 0,
+            "y": 10
+        },
+        "length": 19,
+        "shout": "",
+        "squad": "",
+        "customizations": {
+            "color": "#0066ff",
+            "head": "bendr",
+            "tail": "curled"
+        }
+    }
+}

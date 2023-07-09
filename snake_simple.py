@@ -2,11 +2,15 @@ import random
 import typing
 import json
 from pathlib import Path
+import os
+import time
+
+author_name = "simple"
 
 def info():
     return {
         "apiversion": "1",
-        "author": "Simple",  # TODO: Your Battlesnake Username
+        "author": author_name,  # TODO: Your Battlesnake Username
         "color": "#874719",  # TODO: Choose color
         "head": "tongue",  # TODO: Choose head
         "tail": "round-bum",  # TODO: Choose tail
@@ -16,12 +20,20 @@ def info():
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
 def move(game_state: typing.Dict) -> typing.Dict:
-    logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
-    logFilePath = Path(__file__).parent / logFileName
-    json_file = open(logFilePath, "w")
-    json.dump(game_state, json_file, indent=4)
-    json_file.close()
+    # informational only: start the timer
+    start_time = time.time()
+    print("Turn: ", game_state["turn"])
 
+    # informational only: Log the turn to a file
+    deployment_mode = os.environ.get("deployment_mode")
+    if deployment_mode != "production":
+        logFileName = "logs/" + author_name + "turn_" + str(game_state["turn"]) + ".json"
+        logFilePath = Path(__file__).parent / logFileName
+        json_file = open(logFilePath, "w")
+        json.dump(game_state, json_file, indent=4)
+        json_file.close()
+
+    # snake's logic starts here
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 
     # We've included code to prevent your Battlesnake from moving backwards
@@ -67,6 +79,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
     
 
     print(f"MOVE {game_state['turn']}: {next_move}")
+    print("elapsed time: ", (time.time() - start_time) * 1000)
     return {"move": next_move}
 
 if __name__ == "__main__":

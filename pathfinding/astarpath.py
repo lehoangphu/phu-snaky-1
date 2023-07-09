@@ -2,23 +2,9 @@ import time
 import logging
 from enum import Enum
 
-class Location:
-    def __init__(self, x, y) -> None:
-        self.x = x
-        self.y = y
-    def __repr__(self) -> str:
-        retString = "(" + str(self.x) + ", " + str(self.y) + ")"
-        return retString
-    def __eq__(self, object) -> bool:
-        if self.x == object.x and self.y == object.y:
-            return True
-        else:
-            return False
-    def __hash__(self):
-        return self.x*1000 + self.y
-    def get_distance(self, location):
-        return abs(self.x - location.x) + abs(self.y - location.y)
-
+def find_astar_path(startSnake, endLoc, obstacles):
+    finder = AStarFinder(startSnake, endLoc, obstacles, 11, 11, 2)
+    return finder.findthepath()
         
 class PathEntry:
     def __init__(self, snake) -> None:
@@ -143,9 +129,8 @@ def basicTest1():
     destination = Location(9,9)
     obstacles = [
     ]
-    finder = AStarFinder(snake, destination, obstacles, 11, 11, 1)
     
-    path = finder.findthepath()
+    path = find_astar_path(snake, destination, obstacles)
     logging.info(path)
     logging.info("elapsed time: %d", (time.time() - start_time)*1000)
 
@@ -181,6 +166,12 @@ def circleSnake1():
     logging.info("elapsed time: %d", (time.time() - start_time)*1000)
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    # peterpath.py is being run directly
+    from location import Location
 
+    # run tests
+    logging.basicConfig(level=logging.INFO)
     circleSnake1()
+else:
+    # peterpath.py is being imported into another script
+    from .location import Location
