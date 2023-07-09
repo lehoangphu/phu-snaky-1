@@ -1,6 +1,6 @@
 {
     "game": {
-        "id": "a4f3e095-0ca7-4ad7-9b87-39cb91626a17",
+        "id": "47ddadec-2b19-4fb0-8aef-4b3cd4e80a92",
         "ruleset": {
             "name": "standard",
             "version": "v1.2.3",
@@ -25,39 +25,35 @@
         "timeout": 500,
         "source": "custom"
     },
-    "turn": 10,
+    "turn": 1,
     "board": {
         "height": 11,
         "width": 11,
         "snakes": [
             {
-                "id": "gs_jrHBp8mSSmvDRKG8jbKF3Qt3",
-                "name": "Fat Roy Snake Test",
-                "latency": "280",
-                "health": 92,
+                "id": "gs_GGRjDYCQFpx7XTqtJJJHPyrX",
+                "name": "Roy Snake Test",
+                "latency": "406",
+                "health": 99,
                 "body": [
                     {
-                        "x": 7,
-                        "y": 5
+                        "x": 5,
+                        "y": 10
                     },
                     {
-                        "x": 8,
-                        "y": 5
+                        "x": 5,
+                        "y": 9
                     },
                     {
-                        "x": 8,
-                        "y": 4
-                    },
-                    {
-                        "x": 8,
-                        "y": 3
+                        "x": 5,
+                        "y": 9
                     }
                 ],
                 "head": {
-                    "x": 7,
-                    "y": 5
+                    "x": 5,
+                    "y": 10
                 },
-                "length": 4,
+                "length": 3,
                 "shout": "",
                 "squad": "",
                 "customizations": {
@@ -69,48 +65,40 @@
         ],
         "food": [
             {
+                "x": 4,
+                "y": 10
+            },
+            {
                 "x": 5,
                 "y": 5
-            },
-            {
-                "x": 6,
-                "y": 3
-            },
-            {
-                "x": 4,
-                "y": 6
             }
         ],
         "hazards": []
     },
     "you": {
-        "id": "gs_jrHBp8mSSmvDRKG8jbKF3Qt3",
-        "name": "Fat Roy Snake Test",
-        "latency": "280",
-        "health": 92,
+        "id": "gs_GGRjDYCQFpx7XTqtJJJHPyrX",
+        "name": "Roy Snake Test",
+        "latency": "406",
+        "health": 99,
         "body": [
             {
-                "x": 7,
-                "y": 5
+                "x": 5,
+                "y": 10
             },
             {
-                "x": 8,
-                "y": 5
+                "x": 5,
+                "y": 9
             },
             {
-                "x": 8,
-                "y": 4
-            },
-            {
-                "x": 8,
-                "y": 3
+                "x": 5,
+                "y": 9
             }
         ],
         "head": {
-            "x": 7,
-            "y": 5
+            "x": 5,
+            "y": 10
         },
-        "length": 4,
+        "length": 3,
         "shout": "",
         "squad": "",
         "customizations": {
