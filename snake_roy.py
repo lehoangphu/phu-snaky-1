@@ -77,6 +77,19 @@ def move(game_state: typing.Dict) -> typing.Dict:
             if my_head["y"]+1 == part["y"] and my_head["x"] == part["x"]:
                 is_move_safe["up"] = False
 
+    firstfood = game_state['board']["food"][0]
+    if my_head['x'] > firstfood['x']:
+        return {"move": "left"}
+    
+    if my_head['x'] < firstfood['x']:
+        return {"move": "right"}
+    
+    if my_head['x'] == firstfood['x']:
+        if my_head['y'] > firstfood['y']:
+            return {"move": "down"}
+        if my_head['y'] < firstfood['y']:
+            return {"move": "up"}
+
     # Are there any safe moves left?
     safe_moves = []
     for move, is_safe in is_move_safe.items():
