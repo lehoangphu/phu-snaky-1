@@ -24,7 +24,7 @@ def move_bruce(game_state: typing.Dict) -> typing.Dict:
         logFileName = "logs/bruceturn_" + str(game_state["turn"]+1) + ".json"
         logFilePath = Path(__file__).parent / logFileName
         json_file = open(logFilePath, "w")
-        json.dump(game_state, json_file)
+        json.dump(game_state, json_file, indent=4)
         json_file.close()
 
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
@@ -99,7 +99,18 @@ def move_bruce(game_state: typing.Dict) -> typing.Dict:
     next_move = random.choice(safe_moves)
 
     # Step 4 - Move towards food instead of random, to regain health and survive longer
+    first_food = game_state['board']['food'][0]
+    if my_head['x'] > first_food["x"]:
+        return {"move": "right"}
+    
+    elif my_head['x'] < first_food["x"]:
+        return {"move": "left"}
 
+    elif my_head['y'] < first_food["y"]:
+        return {"move": "down"}
+    
+    elif my_head['y'] > first_food["y"]:
+        return {"move": "up"}
 
     print(f"MOVE {game_state['turn']}: {next_move}")
     print("elapsed time: ", (time.time() - starttime) * 1000)
