@@ -72,7 +72,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
     start_time = time.time()
     deployment_mode = os.environ.get("deployment_mode")
     if deployment_mode != "production":
-        logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
+        logFileName = "logs/" + author_name + "turn_" + str(game_state["turn"]) + ".json"
         logFilePath = Path(__file__).parent / logFileName
         json_file = open(logFilePath, "w")
         json.dump(game_state, json_file, indent=4)

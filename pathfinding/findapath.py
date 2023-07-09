@@ -1,4 +1,4 @@
-def findapath(startLoc, endLoc, obstacles):
+def find_a_path(startLoc, endLoc, obstacles):
     finder = PathFinder(startLoc, endLoc, obstacles, 11, 11)
     return finder.findthepath()
      
@@ -115,7 +115,7 @@ def basicTest1():
     startLoc = Location(start["x"], start["y"])
     endLoc = Location(end["x"], end["y"])
 
-    print(findapath(startLoc, endLoc, obstacles))
+    print(find_a_path(startLoc, endLoc, obstacles))
 
 
 if __name__ == "__main__":
