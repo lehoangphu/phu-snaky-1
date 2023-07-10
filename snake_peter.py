@@ -1,9 +1,12 @@
 import random
 import typing
 from pathfinding.location import Location
-from pathfinding.peterpath import PathFinder
+from pathfinding.findapath import find_a_path
 import json
 from pathlib import Path
+import time
+import os
+
 
 def info_peter():
     return {
@@ -18,19 +21,33 @@ def info_peter():
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
 def move_peter(game_state: typing.Dict) -> typing.Dict:
+    # informational only: start the timer
+    start_time = time.time()
+    print("Turn: ", game_state["turn"])
+
+    # informational only: Log the turn to a file
+    deployment_mode = os.environ.get("deployment_mode")
+    if deployment_mode != "production":
+        logFileName = "logs/peterturn_" + str(game_state["turn"]) + ".json"
+        logFilePath = Path(__file__).parent / logFileName
+        json_file = open(logFilePath, "w")
+        json.dump(game_state, json_file, indent=4)
+        json_file.close()
+    
     my_head = game_state["you"]["body"][0]  # Coordinates of your head
     board_width = game_state['board']['width']
     board_height = game_state['board']['height']
     my_body = game_state['you']['body']
+    my_tail = game_state['you']['body'][len(my_body)-1]
     opponents = game_state['board']['snakes']
 
-    food = game_state['board']['food']
-    if (len(food) > 0):
-        first_food = food[0]
+    foods = game_state['board']['food']
+    
 
 
     startLoc = Location(my_head["x"],my_head["y"])
-    destination = Location(first_food["x"],first_food["y"])
+    tailLoc = Location(my_tail["x"], my_tail["y"])
+
     obstacles = []
     for snake in opponents:
         for position in snake["body"]:
@@ -40,12 +57,25 @@ def move_peter(game_state: typing.Dict) -> typing.Dict:
         obstacles.append(Location(part["x"], part["y"]))
     
     print("obstacles: ", obstacles)
-    finder = PathFinder(startLoc, destination, obstacles, board_width, board_height)
+
+    foodpath = None
+    for food in foods:
+        foodLoc = Location(food["x"], food["y"])
+        foodpath = find_a_path(startLoc, foodLoc, obstacles)
+        if foodpath != None:
+            break
     
-    path = finder.findthepath()
-    print("path: ", path)
-    current = path[0]
-    nextmove = path[1]
+    tailpath = None
+    if foodpath == None:
+        tailpath = find_a_path(startLoc,tailLoc, obstacles)
+    if foodpath != None:
+        current = foodpath[0]
+        nextmove = foodpath[1]
+    elif tailpath != None:
+        current = tailpath[0]
+        nextmove = foodpath[1]
+
+    print("elapsed time: ", (time.time() - start_time) * 1000)
     if nextmove.x > current.x:
         return {"move":"right"}
     if nextmove.x < current.x:
