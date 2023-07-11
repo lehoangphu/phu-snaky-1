@@ -50,11 +50,8 @@ def move_peter(game_state: typing.Dict) -> typing.Dict:
 
     obstacles = []
     for snake in opponents:
-        for position in snake["body"]:
-            obstacles.append(Location(position["x"],position["y"]))
-    
-    for part in my_body:
-        obstacles.append(Location(part["x"], part["y"]))
+        for i in range(len(snake["body"])-1):
+            obstacles.append(Location(snake["body"][i]["x"],snake["body"][i]["y"]))
     
     print("obstacles: ", obstacles)
 

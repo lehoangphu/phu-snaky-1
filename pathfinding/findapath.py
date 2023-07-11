@@ -7,6 +7,9 @@ class PathEntry:
         self.location = location
         self.history = []
         self.cost = 0
+    def __repr__(self) -> str:
+        retString = "(" + str(self.location.x) + ", " + str(self.location.y) + ")"
+        return retString
 
 class PathFinder:
     def __init__(self, startLoc, destination, obstacles, width, height) -> None:
