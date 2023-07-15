@@ -1,10 +1,16 @@
 import random
 import typing
+import json
+from pathlib import Path
+import os
+import time
 
-def info_ryan():
+author_name = "Ryan"
+
+def info():
     return {
         "apiversion": "1",
-        "author": "Ryan",  # TODO: Your Battlesnake Username
+        "author": author_name,  # TODO: Your Battlesnake Username
         "color": "#874719",  # TODO: Choose color
         "head": "tongue",  # TODO: Choose head
         "tail": "round-bum",  # TODO: Choose tail
@@ -13,8 +19,21 @@ def info_ryan():
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
-def move_ryan(game_state: typing.Dict) -> typing.Dict:
+def move(game_state: typing.Dict) -> typing.Dict:
+    # informational only: start the timer
+    start_time = time.time()
+    print("Turn: ", game_state["turn"])
 
+    # informational only: Log the turn to a file
+    deployment_mode = os.environ.get("deployment_mode")
+    if deployment_mode != "production":
+        logFileName = "logs/" + author_name + "turn_" + str(game_state["turn"]) + ".json"
+        logFilePath = Path(__file__).parent / logFileName
+        json_file = open(logFilePath, "w")
+        json.dump(game_state, json_file, indent=4)
+        json_file.close()
+
+    # snake's logic starts here
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 
     # We've included code to prevent your Battlesnake from moving backwards
@@ -34,17 +53,8 @@ def move_ryan(game_state: typing.Dict) -> typing.Dict:
         is_move_safe["up"] = False
 
     # TODO: Step 1 - Prevent your Battlesnake from moving out of bounds
-    board_width = game_state['board']['width']
-    board_height = game_state['board']['height']
-
-    if (my_head['x'] == 0):
-        is_move_safe["left"] = False
-    if (my_head['x'] == board_width-1):
-        is_move_safe["right"] = False
-    if (my_head['y'] == 0):
-        is_move_safe["down"] = False
-    if (my_head['y'] == board_height-1):
-        is_move_safe["up"] = False
+    # board_width = game_state['board']['width']
+    # board_height = game_state['board']['height']
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     # my_body = game_state['you']['body']
@@ -54,8 +64,8 @@ def move_ryan(game_state: typing.Dict) -> typing.Dict:
 
     # Are there any safe moves left?
     safe_moves = []
-    for move, isSafe in is_move_safe.items():
-        if isSafe:
+    for move, is_safe in is_move_safe.items():
+        if is_safe:
             safe_moves.append(move)
 
     if len(safe_moves) == 0:
@@ -66,19 +76,17 @@ def move_ryan(game_state: typing.Dict) -> typing.Dict:
     next_move = random.choice(safe_moves)
 
     # Step 4 - Move towards food instead of random, to regain health and survive longer
-    # TODO: Need to run to the nearest food
-    food = game_state['board']['food']
-    if (len(food) > 0):
-        first_food = food[0]
-        if (first_food['x'] < my_head["x"] and is_move_safe["left"]):
-            return {"move": "left"}
-        elif (first_food['x'] > my_head["x"] and is_move_safe["right"]):
-            return {"move": "right"}
-        elif (first_food['y'] < my_head["y"] and is_move_safe["down"]):
-            return {"move": "down"}
-        elif (first_food['y'] > my_head["y"] and is_move_safe["up"]):
-            return {"move": "up"}
     
 
     print(f"MOVE {game_state['turn']}: {next_move}")
+    print("elapsed time: ", (time.time() - start_time) * 1000)
     return {"move": next_move}
+
+if __name__ == "__main__":
+    dataFileName = "snake_"+author_name+".json"
+    dataFilePath = Path(__file__).parent / dataFileName
+    rhandle = open(dataFilePath, "r")
+
+    gamestate = json.load(rhandle)
+    rhandle.close()
+    print(move(gamestate))
