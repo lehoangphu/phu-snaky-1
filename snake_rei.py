@@ -2,26 +2,38 @@ import random
 import typing
 import json
 from pathlib import Path
+import os
+import time
+
+author_name = "Rei"
 
 def info():
     return {
         "apiversion": "1",
-        "author": "Roy",  # TODO: Your Battlesnake Username
-        "color": "#ffff00",  # TODO: Choose color
-        "head": "all-seeing",  # TODO: Choose head
-        "tail": "bolt",  # TODO: Choose tail
+        "author": author_name,  # TODO: Your Battlesnake Username
+        "color": "#cc66ff",  # TODO: Choose color
+        "head": "dead",  # TODO: Choose head
+        "tail": "present",  # TODO: Choose tail
     }
 
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
 def move(game_state: typing.Dict) -> typing.Dict:
-    logFileName = "logs/royturn_" + str(game_state["turn"]) + ".json"
-    logFilePath = Path(__file__).parent / logFileName
-    json_file = open(logFilePath, "w")
-    json.dump(game_state, json_file, indent=4)
-    json_file.close()
+    # informational only: start the timer
+    start_time = time.time()
+    print("Turn: ", game_state["turn"])
 
+    # informational only: Log the turn to a file
+    deployment_mode = os.environ.get("deployment_mode")
+    if deployment_mode != "production":
+        logFileName = "logs/" + author_name + "turn_" + str(game_state["turn"]) + ".json"
+        logFilePath = Path(__file__).parent / logFileName
+        json_file = open(logFilePath, "w")
+        json.dump(game_state, json_file, indent=4)
+        json_file.close()
+
+    # snake's logic starts here
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 
     # We've included code to prevent your Battlesnake from moving backwards
@@ -50,45 +62,22 @@ def move(game_state: typing.Dict) -> typing.Dict:
     if my_head["y"] == 0:
         is_move_safe["down"] = False
     if my_head["y"] == board_height-1:
-        is_move_safe["up"] = False
+        is_move_safe["up"]
 
     # TODO: Step 2 - Prevent your Battlesnake from colliding with itself
     my_body = game_state['you']['body']
     for part in my_body:
-        if my_head["x"]-1 == part["x"] and my_head["y"] == part["y"]:
-            is_move_safe["left"] = False
         if my_head["x"]+1 == part["x"] and my_head["y"] == part["y"]:
             is_move_safe["right"] = False
-        if my_head["y"]-1 == part["y"] and my_head["x"] == part["x"]:
-            is_move_safe["down"] = False
+        if my_head["x"]-1 == part["x"] and my_head["y"] == part["y"]:
+            is_move_safe["left"] = False
         if my_head["y"]+1 == part["y"] and my_head["x"] == part["x"]:
             is_move_safe["up"] = False
+        if my_head["y"]-1 == part["y"] and my_head["x"] == part["x"]:
+            is_move_safe["down"] = False
 
     # TODO: Step 3 - Prevent your Battlesnake from colliding with other Battlesnakes
-    opponents = game_state['board']['snakes']
-    for snake in opponents:
-        for part in snake["body"]:
-            if my_head["x"]-1 == part["x"] and my_head["y"] == part["y"]:
-                is_move_safe["left"] = False
-            if my_head["x"]+1 == part["x"] and my_head["y"] == part["y"]:
-                is_move_safe["right"] = False
-            if my_head["y"]-1 == part["y"] and my_head["x"] == part["x"]:
-                is_move_safe["down"] = False
-            if my_head["y"]+1 == part["y"] and my_head["x"] == part["x"]:
-                is_move_safe["up"] = False
-
-    firstfood = game_state['board']["food"][0]
-    if my_head['x'] > firstfood['x']:
-        return {"move": "left"}
-    
-    if my_head['x'] < firstfood['x']:
-        return {"move": "right"}
-    
-    if my_head['x'] == firstfood['x']:
-        if my_head['y'] > firstfood['y']:
-            return {"move": "down"}
-        if my_head['y'] < firstfood['y']:
-            return {"move": "up"}
+    # opponents = game_state['board']['snakes']
 
     # Are there any safe moves left?
     safe_moves = []
@@ -107,10 +96,12 @@ def move(game_state: typing.Dict) -> typing.Dict:
     
 
     print(f"MOVE {game_state['turn']}: {next_move}")
+    print("elapsed time: ", (time.time() - start_time) * 1000)
     return {"move": next_move}
 
 if __name__ == "__main__":
-    dataFilePath = Path(__file__).parent / "snake_roy.json"
+    dataFileName = "snake_"+author_name+".json"
+    dataFilePath = Path(__file__).parent / dataFileName
     rhandle = open(dataFilePath, "r")
 
     gamestate = json.load(rhandle)

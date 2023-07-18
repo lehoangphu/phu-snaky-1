@@ -1,6 +1,6 @@
 {
   "game": {
-      "id": "8f0263dc-8172-454e-931e-e2a34198f222",
+      "id": "18d779a2-236e-482d-a190-56aa3d7116d6",
       "ruleset": {
           "name": "standard",
           "version": "v1.2.3",
@@ -25,94 +25,110 @@
       "timeout": 500,
       "source": "custom"
   },
-  "turn": 9,
+  "turn": 40,
   "board": {
       "height": 11,
       "width": 11,
       "snakes": [
           {
-              "id": "gs_84t4HVX7S7WQmQhtG8q7jHqd",
-              "name": "brucetest",
-              "latency": "388",
-              "health": 95,
+              "id": "gs_YY8BR7WBS4x46rJRQtbr8mmH",
+              "name": "Simple test",
+              "latency": "88",
+              "health": 62,
               "body": [
                   {
-                      "x": 0,
-                      "y": 5
+                      "x": 10,
+                      "y": 2
                   },
                   {
-                      "x": 1,
-                      "y": 5
+                      "x": 9,
+                      "y": 2
                   },
                   {
-                      "x": 2,
-                      "y": 5
+                      "x": 8,
+                      "y": 2
                   },
                   {
-                      "x": 3,
-                      "y": 5
+                      "x": 7,
+                      "y": 2
                   }
               ],
               "head": {
-                  "x": 0,
-                  "y": 5
+                  "x": 10,
+                  "y": 2
               },
               "length": 4,
               "shout": "",
               "squad": "",
               "customizations": {
-                  "color": "#ff2400",
-                  "head": "fang",
-                  "tail": "curled"
+                  "color": "#874719",
+                  "head": "tongue",
+                  "tail": "round-bum"
               }
           }
       ],
       "food": [
           {
-              "x": 10,
-              "y": 6
+              "x": 5,
+              "y": 5
           },
           {
-              "x": 4,
-              "y": 1
+              "x": 7,
+              "y": 4
+          },
+          {
+              "x": 2,
+              "y": 10
+          },
+          {
+              "x": 0,
+              "y": 8
+          },
+          {
+              "x": 6,
+              "y": 10
+          },
+          {
+              "x": 1,
+              "y": 4
           }
       ],
       "hazards": []
   },
   "you": {
-      "id": "gs_84t4HVX7S7WQmQhtG8q7jHqd",
-      "name": "brucetest",
-      "latency": "388",
-      "health": 95,
+      "id": "gs_YY8BR7WBS4x46rJRQtbr8mmH",
+      "name": "Simple test",
+      "latency": "88",
+      "health": 62,
       "body": [
           {
-              "x": 0,
-              "y": 5
+              "x": 10,
+              "y": 2
           },
           {
-              "x": 1,
-              "y": 5
+              "x": 9,
+              "y": 2
           },
           {
-              "x": 2,
-              "y": 5
+              "x": 8,
+              "y": 2
           },
           {
-              "x": 3,
-              "y": 5
+              "x": 7,
+              "y": 2
           }
       ],
       "head": {
-          "x": 0,
-          "y": 5
+          "x": 10,
+          "y": 2
       },
       "length": 4,
       "shout": "",
       "squad": "",
       "customizations": {
-          "color": "#ff2400",
-          "head": "fang",
-          "tail": "curled"
+          "color": "#874719",
+          "head": "tongue",
+          "tail": "round-bum"
       }
   }
 }

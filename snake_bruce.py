@@ -19,12 +19,13 @@ def info_bruce():
 # See https://docs.battlesnake.com/api/example-move for available data
 def move_bruce(game_state: typing.Dict) -> typing.Dict:
     starttime = time.time()
+    # informational only: Log the turn to a file
     deployment_mode = os.environ.get("deployment_mode")
     if deployment_mode != "production":
-        logFileName = "logs/bruceturn_" + str(game_state["turn"]+1) + ".json"
+        logFileName = "logs/bruce" + "turn_" + str(game_state["turn"]) + ".json"
         logFilePath = Path(__file__).parent / logFileName
         json_file = open(logFilePath, "w")
-        json.dump(game_state, json_file)
+        json.dump(game_state, json_file, indent=4)
         json_file.close()
 
     is_move_safe = {"up": True, "down": True, "left": True, "right": True}
@@ -84,6 +85,22 @@ def move_bruce(game_state: typing.Dict) -> typing.Dict:
             if my_head["y"]-1 ==part["y"] and my_head["x"] ==part["x"]:
                 is_move_safe["down"]=False
 
+    first_food = game_state['board']['food'][0]
+    if my_head['x'] > first_food["x"]:
+        if is_move_safe["left"] == True:
+            return {"move": "left"}
+    
+    elif my_head['x'] < first_food["x"]:
+        if is_move_safe["right"] == True:
+            return {"move": "right"}
+
+    elif my_head['y'] > first_food["y"]:
+        if is_move_safe["down"] == True:
+            return {"move": "down"}
+    
+    elif my_head['y'] < first_food["y"]:
+        if is_move_safe["up"] == True:
+            return {"move": "up"}
 
     # Are there any safe moves left?
     safe_moves = []
@@ -99,7 +116,7 @@ def move_bruce(game_state: typing.Dict) -> typing.Dict:
     next_move = random.choice(safe_moves)
 
     # Step 4 - Move towards food instead of random, to regain health and survive longer
-
+    
 
     print(f"MOVE {game_state['turn']}: {next_move}")
     print("elapsed time: ", (time.time() - starttime) * 1000)
