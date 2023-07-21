@@ -1,4 +1,4 @@
-def findapath(startLoc, endLoc, obstacles):
+def find_a_path(startLoc, endLoc, obstacles):
     finder = PathFinder(startLoc, endLoc, obstacles, 11, 11)
     return finder.findthepath()
      
@@ -7,6 +7,9 @@ class PathEntry:
         self.location = location
         self.history = []
         self.cost = 0
+    def __repr__(self) -> str:
+        retString = "(" + str(self.location.x) + ", " + str(self.location.y) + ")"
+        return retString
 
 class PathFinder:
     def __init__(self, startLoc, destination, obstacles, width, height) -> None:
@@ -115,7 +118,7 @@ def basicTest1():
     startLoc = Location(start["x"], start["y"])
     endLoc = Location(end["x"], end["y"])
 
-    print(findapath(startLoc, endLoc, obstacles))
+    print(find_a_path(startLoc, endLoc, obstacles))
 
 
 if __name__ == "__main__":

@@ -69,6 +69,10 @@ def move_daddy(game_state: typing.Dict) -> typing.Dict:
     start_time = time.time()
     deployment_mode = os.environ.get("deployment_mode")
     if deployment_mode != "production":
+        logFolderName = "logs"
+        logFolderPath = Path(__file__).parent / logFolderName
+        if not os.path.exists(logFolderPath):
+            os.makedirs(logFolderPath)
         logFileName = "logs/turn_" + str(game_state["turn"]) + ".json"
         logFilePath = Path(__file__).parent / logFileName
         json_file = open(logFilePath, "w")

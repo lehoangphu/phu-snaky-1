@@ -1,0 +1,210 @@
+{
+    "game": {
+        "id": "98be41fd-a925-4b46-9a86-9a4eb9023176",
+        "ruleset": {
+            "name": "standard",
+            "version": "v1.2.3",
+            "settings": {
+                "foodSpawnChance": 15,
+                "minimumFood": 1,
+                "hazardDamagePerTurn": 0,
+                "hazardMap": "",
+                "hazardMapAuthor": "",
+                "royale": {
+                    "shrinkEveryNTurns": 0
+                },
+                "squad": {
+                    "allowBodyCollisions": false,
+                    "sharedElimination": false,
+                    "sharedHealth": false,
+                    "sharedLength": false
+                }
+            }
+        },
+        "map": "standard",
+        "timeout": 500,
+        "source": "custom"
+    },
+    "turn": 64,
+    "board": {
+        "height": 11,
+        "width": 11,
+        "snakes": [
+            {
+                "id": "gs_rdhjKShbWT96Xg7wJjTSBSQP",
+                "name": "ninjatest2",
+                "latency": "83",
+                "health": 98,
+                "body": [
+                    {
+                        "x": 4,
+                        "y": 8
+                    },
+                    {
+                        "x": 4,
+                        "y": 9
+                    },
+                    {
+                        "x": 5,
+                        "y": 9
+                    },
+                    {
+                        "x": 5,
+                        "y": 8
+                    },
+                    {
+                        "x": 5,
+                        "y": 7
+                    }
+                ],
+                "head": {
+                    "x": 4,
+                    "y": 8
+                },
+                "length": 5,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#000000",
+                    "head": "all-seeing",
+                    "tail": "flytrap"
+                }
+            },
+            {
+                "id": "gs_XQdjBVcbxb8bDRjvX3J4DrR7",
+                "name": "NinjaSnake1",
+                "latency": "56",
+                "health": 97,
+                "body": [
+                    {
+                        "x": 4,
+                        "y": 6
+                    },
+                    {
+                        "x": 5,
+                        "y": 6
+                    },
+                    {
+                        "x": 6,
+                        "y": 6
+                    },
+                    {
+                        "x": 6,
+                        "y": 7
+                    },
+                    {
+                        "x": 7,
+                        "y": 7
+                    },
+                    {
+                        "x": 8,
+                        "y": 7
+                    },
+                    {
+                        "x": 9,
+                        "y": 7
+                    },
+                    {
+                        "x": 10,
+                        "y": 7
+                    },
+                    {
+                        "x": 10,
+                        "y": 6
+                    },
+                    {
+                        "x": 10,
+                        "y": 5
+                    },
+                    {
+                        "x": 10,
+                        "y": 4
+                    },
+                    {
+                        "x": 10,
+                        "y": 3
+                    },
+                    {
+                        "x": 10,
+                        "y": 2
+                    },
+                    {
+                        "x": 10,
+                        "y": 1
+                    }
+                ],
+                "head": {
+                    "x": 4,
+                    "y": 6
+                },
+                "length": 14,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#000000",
+                    "head": "all-seeing",
+                    "tail": "flytrap"
+                }
+            }
+        ],
+        "food": [
+            {
+                "x": 0,
+                "y": 7
+            },
+            {
+                "x": 8,
+                "y": 4
+            },
+            {
+                "x": 3,
+                "y": 5
+            },
+            {
+                "x": 9,
+                "y": 8
+            }
+        ],
+        "hazards": []
+    },
+    "you": {
+        "id": "gs_rdhjKShbWT96Xg7wJjTSBSQP",
+        "name": "ninjatest2",
+        "latency": "83",
+        "health": 98,
+        "body": [
+            {
+                "x": 4,
+                "y": 8
+            },
+            {
+                "x": 4,
+                "y": 9
+            },
+            {
+                "x": 5,
+                "y": 9
+            },
+            {
+                "x": 5,
+                "y": 8
+            },
+            {
+                "x": 5,
+                "y": 7
+            }
+        ],
+        "head": {
+            "x": 4,
+            "y": 8
+        },
+        "length": 5,
+        "shout": "",
+        "squad": "",
+        "customizations": {
+            "color": "#000000",
+            "head": "all-seeing",
+            "tail": "flytrap"
+        }
+    }
+}

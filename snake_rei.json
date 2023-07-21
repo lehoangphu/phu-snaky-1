@@ -1,0 +1,214 @@
+{
+    "game": {
+        "id": "f6a113b7-ba06-461a-8b93-3c90638f4315",
+        "ruleset": {
+            "name": "standard",
+            "version": "v1.2.3",
+            "settings": {
+                "foodSpawnChance": 15,
+                "minimumFood": 1,
+                "hazardDamagePerTurn": 0,
+                "hazardMap": "",
+                "hazardMapAuthor": "",
+                "royale": {
+                    "shrinkEveryNTurns": 0
+                },
+                "squad": {
+                    "allowBodyCollisions": false,
+                    "sharedElimination": false,
+                    "sharedHealth": false,
+                    "sharedLength": false
+                }
+            }
+        },
+        "map": "standard",
+        "timeout": 500,
+        "source": "custom"
+    },
+    "turn": 94,
+    "board": {
+        "height": 11,
+        "width": 11,
+        "snakes": [
+            {
+                "id": "gs_CrPkrW7SrwR9RYdGKHQq7XTX",
+                "name": "rei test snake",
+                "latency": "77",
+                "health": 88,
+                "body": [
+                    {
+                        "x": 0,
+                        "y": 10
+                    },
+                    {
+                        "x": 0,
+                        "y": 9
+                    },
+                    {
+                        "x": 0,
+                        "y": 8
+                    },
+                    {
+                        "x": 1,
+                        "y": 8
+                    },
+                    {
+                        "x": 2,
+                        "y": 8
+                    },
+                    {
+                        "x": 3,
+                        "y": 8
+                    },
+                    {
+                        "x": 3,
+                        "y": 7
+                    },
+                    {
+                        "x": 3,
+                        "y": 6
+                    },
+                    {
+                        "x": 3,
+                        "y": 5
+                    }
+                ],
+                "head": {
+                    "x": 0,
+                    "y": 10
+                },
+                "length": 9,
+                "shout": "",
+                "squad": "",
+                "customizations": {
+                    "color": "#cc66ff",
+                    "head": "dead",
+                    "tail": "present"
+                }
+            }
+        ],
+        "food": [
+            {
+                "x": 1,
+                "y": 10
+            },
+            {
+                "x": 4,
+                "y": 5
+            },
+            {
+                "x": 5,
+                "y": 3
+            },
+            {
+                "x": 10,
+                "y": 9
+            },
+            {
+                "x": 6,
+                "y": 5
+            },
+            {
+                "x": 2,
+                "y": 7
+            },
+            {
+                "x": 6,
+                "y": 9
+            },
+            {
+                "x": 9,
+                "y": 10
+            },
+            {
+                "x": 4,
+                "y": 8
+            },
+            {
+                "x": 2,
+                "y": 0
+            },
+            {
+                "x": 8,
+                "y": 1
+            },
+            {
+                "x": 9,
+                "y": 0
+            },
+            {
+                "x": 0,
+                "y": 7
+            },
+            {
+                "x": 3,
+                "y": 10
+            },
+            {
+                "x": 7,
+                "y": 10
+            },
+            {
+                "x": 7,
+                "y": 1
+            }
+        ],
+        "hazards": []
+    },
+    "you": {
+        "id": "gs_CrPkrW7SrwR9RYdGKHQq7XTX",
+        "name": "rei test snake",
+        "latency": "77",
+        "health": 88,
+        "body": [
+            {
+                "x": 0,
+                "y": 10
+            },
+            {
+                "x": 0,
+                "y": 9
+            },
+            {
+                "x": 0,
+                "y": 8
+            },
+            {
+                "x": 1,
+                "y": 8
+            },
+            {
+                "x": 2,
+                "y": 8
+            },
+            {
+                "x": 3,
+                "y": 8
+            },
+            {
+                "x": 3,
+                "y": 7
+            },
+            {
+                "x": 3,
+                "y": 6
+            },
+            {
+                "x": 3,
+                "y": 5
+            }
+        ],
+        "head": {
+            "x": 0,
+            "y": 10
+        },
+        "length": 9,
+        "shout": "",
+        "squad": "",
+        "customizations": {
+            "color": "#cc66ff",
+            "head": "dead",
+            "tail": "present"
+        }
+    }
+}

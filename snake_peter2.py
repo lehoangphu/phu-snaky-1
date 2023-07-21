@@ -8,10 +8,10 @@ import time
 import os
 
 
-def info_peter():
+def info_peter2():
     return {
         "apiversion": "1",
-        "author": "Peter",  # TODO: Your Battlesnake Username
+        "author": "Peter2",  # TODO: Your Battlesnake Username
         "color": "#000000",  # TODO: Choose color
         "head": "all-seeing",  # TODO: Choose head
         "tail": "flytrap",  # TODO: Choose tail
@@ -20,7 +20,7 @@ def info_peter():
 # move is called on every turn and returns your next move
 # Valid moves are "up", "down", "left", or "right"
 # See https://docs.battlesnake.com/api/example-move for available data
-def move_peter(game_state: typing.Dict) -> typing.Dict:
+def move_peter2(game_state: typing.Dict) -> typing.Dict:
     # informational only: start the timer
     start_time = time.time()
     print("Turn: ", game_state["turn"])
@@ -28,7 +28,7 @@ def move_peter(game_state: typing.Dict) -> typing.Dict:
     # informational only: Log the turn to a file
     deployment_mode = os.environ.get("deployment_mode")
     if deployment_mode != "production":
-        logFileName = "logs/peterturn_" + str(game_state["turn"]) + ".json"
+        logFileName = "logs/peter2turn_" + str(game_state["turn"]) + ".json"
         logFilePath = Path(__file__).parent / logFileName
         json_file = open(logFilePath, "w")
         json.dump(game_state, json_file, indent=4)
@@ -37,14 +37,26 @@ def move_peter(game_state: typing.Dict) -> typing.Dict:
     my_head = game_state["you"]["body"][0]  # Coordinates of your head
     board_width = game_state['board']['width']
     board_height = game_state['board']['height']
+    my_snake_name = game_state["you"]["name"]
     my_body = game_state['you']['body']
     my_tail = game_state['you']['body'][len(my_body)-1]
     opponents = game_state['board']['snakes']
+    for snake in opponents:
+        if snake["name"] != my_snake_name:
+            opponent_head = snake["body"][0]
+    meright = my_head["x"]+1
+    meleft = my_head["x"]-1
+    meup = my_head["y"]+1
+    medown = my_head["y"]-1
+    enemyright = opponent_head["x"]+1
+    enemyleft = opponent_head["x"]-1
+    enemyup = opponent_head["y"]+1
+    enemydown = opponent_head["y"]-1
 
     foods = game_state['board']['food']
+
+    is_move_safe = {"up": True, "down": True, "left": True, "right": True}
     
-
-
     startLoc = Location(my_head["x"],my_head["y"])
     tailLoc = Location(my_tail["x"], my_tail["y"])
 
@@ -65,13 +77,68 @@ def move_peter(game_state: typing.Dict) -> typing.Dict:
     tailpath = None
     if foodpath == None:
         tailpath = find_a_path(startLoc,tailLoc, obstacles)
+    
+    head2head = False
 
     path = None
-    if foodpath != None:
+    if meright == enemyleft and my_head["y"] == opponent_head["y"]:
+        is_move_safe["right"] = False
+        head2head = True
+        path = None
+    elif meright == enemydown and my_head["y"] == opponent_head["y"]:
+        is_move_safe["right"] = False
+        head2head = True
+        path = None
+    elif meright == enemyup and my_head["y"] == opponent_head["y"]:
+        is_move_safe["right"] = False
+        head2head = True
+        path = None
+
+    elif meleft == enemyright and my_head["y"] == opponent_head["y"]:
+        is_move_safe["left"] = False
+        head2head = True
+        path = None
+    elif meleft == enemydown and my_head["y"] == opponent_head["y"]:
+        is_move_safe["left"] = False
+        head2head = True
+        path = None
+    elif meleft == enemyup and my_head["y"] == opponent_head["y"]:
+        is_move_safe["left"] = False
+        head2head = True
+        path = None
+
+    elif meup == enemyleft and my_head["x"] == opponent_head["x"]:
+        is_move_safe["up"] = False
+        head2head = True
+        path = None
+    elif meup == enemydown and my_head["x"] == opponent_head["x"]:
+        is_move_safe["up"] = False
+        head2head = True
+        path = None
+    elif meup == enemyright and my_head["x"] == opponent_head["x"]:
+        is_move_safe["up"] = False
+        head2head = True
+        path = None
+    
+    elif medown == enemyleft and my_head["x"] == opponent_head["x"]:
+        is_move_safe["down"] = False
+        head2head = True
+        path = None
+    elif medown == enemyup and my_head["x"] == opponent_head["x"]:
+        is_move_safe["down"] = False
+        head2head = True
+        path = None
+    elif medown == enemyright and my_head["x"] == opponent_head["x"]:
+        is_move_safe["down"] = False
+        head2head = True
+        path = None
+
+    elif foodpath != None:
         path = foodpath
     elif tailpath != None:
         path = tailpath
-    if path != None:
+    
+    if path != None and head2head == False:
         current = path[0]
         nextmove = path[1]
 
@@ -84,8 +151,6 @@ def move_peter(game_state: typing.Dict) -> typing.Dict:
             return {"move":"up"}
         if nextmove.y < current.y:
             return {"move":"down"}
-
-    is_move_safe = {"up": True, "down": True, "left": True, "right": True}
 
     # We've included code to prevent your Battlesnake from moving backwards
     my_head = game_state["you"]["body"][0]  # Coordinates of your head
@@ -159,9 +224,9 @@ def move_peter(game_state: typing.Dict) -> typing.Dict:
     return {"move": next_move}
 
 if __name__ == "__main__":
-    dataFilePath = Path(__file__).parent / "snake_peter.json"
+    dataFilePath = Path(__file__).parent / "snake_peter2.json"
     rhandle = open(dataFilePath, "r")
 
     gamestate = json.load(rhandle)
     rhandle.close()
-    print(move_peter(gamestate))
+    print(move_peter2(gamestate))
