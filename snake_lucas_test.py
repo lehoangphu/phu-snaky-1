@@ -1,122 +1,42 @@
-import bottle
-import json
-import random
-from queue import Queue
+def move(data):
+    # Extract relevant information from the game data
+    you = data["you"]
+    head = you["head"]
+    board = data["board"]
+    food = board["food"]
 
-@bottle.route('/')
-def index():
-    return "Your BattleSnake is alive!"
+    # Find the closest food item
+    closest_food = find_closest_food(head, food)
 
-@bottle.post('/ping')
-def ping():
-    return json.dumps({"ping": "pong"})
+    # Determine the next move based on the direction towards the closest food
+    next_move = get_direction(head, closest_food)
 
-@bottle.post('/move')
-def move():
-    data = bottle.request.json
-
-    # Extract information from the request
-    board = data['board']
-    board_width = board['width']
-    board_height = board['height']
-    head = data['you']['head']
-    body = data['you']['body']
-    snakes = data['board']['snakes']
-
-    # Choose the best move based on the strategy
-    move = choose_move(head, body, board_width, board_height, snakes)
-
-    response = {
-        'move': move,
-        'taunt': 'I am the smartest BattleSnake!'
+    return {
+        "move": next_move,
+        "shout": "I'm hungry!",
     }
 
-    return json.dumps(response)
+def find_closest_food(head, food):
+    # Calculate the distance from the snake's head to each food item
+    distances = [distance(head, food_item) for food_item in food]
 
-def choose_move(head, body, board_width, board_height, snakes):
-    valid_moves = ['up', 'down', 'left', 'right']
-    safe_moves = get_safe_moves(head, body, board_width, board_height)
+    # Find the index of the closest food item
+    closest_food_index = distances.index(min(distances))
 
-    # Prioritize food if available
-    food_moves = get_food_moves(head, valid_moves, board_width, board_height, snakes)
-    if food_moves:
-        return random.choice(food_moves)
+    # Return the coordinates of the closest food item
+    return food[closest_food_index]
 
-    # Avoid colliding with other snakes
-    avoid_snakes_moves = get_avoid_snakes_moves(head, safe_moves, board_width, board_height, snakes)
-    if avoid_snakes_moves:
-        return random.choice(avoid_snakes_moves)
+def get_direction(head, target):
+    # Determine the direction (up, down, left, right) towards the target
+    if head["x"] < target["x"]:
+        return "right"
+    elif head["x"] > target["x"]:
+        return "left"
+    elif head["y"] < target["y"]:
+        return "up"
+    else:
+        return "down"
 
-    # Choose a safe move if no food or snake avoidance is necessary
-    if safe_moves:
-        return random.choice(safe_moves)
-
-    # If no safe moves, choose any valid move
-    return random.choice(valid_moves)
-
-def get_safe_moves(head, body, board_width, board_height):
-    safe_moves = []
-    for move in ['up', 'down', 'left', 'right']:
-        x, y = get_new_position(head['x'], head['y'], move)
-        if is_valid_move(x, y, board_width, board_height, body):
-            safe_moves.append(move)
-    return safe_moves
-
-def get_food_moves(head, valid_moves, board_width, board_height, snakes):
-    food_moves = []
-    for move in valid_moves:
-        x, y = get_new_position(head['x'], head['y'], move)
-        if is_valid_move(x, y, board_width, board_height, []):
-            if is_food_location(x, y, snakes):
-                food_moves.append(move)
-    return food_moves
-
-def get_avoid_snakes_moves(head, valid_moves, board_width, board_height, snakes):
-    avoid_moves = []
-    for move in valid_moves:
-        x, y = get_new_position(head['x'], head['y'], move)
-        if is_valid_move(x, y, board_width, board_height, []):
-            if not is_snake_location(x, y, snakes):
-                avoid_moves.append(move)
-    return avoid_moves
-
-def get_new_position(x, y, direction):
-    if direction == 'up':
-        return x, y - 1
-    elif direction == 'down':
-        return x, y + 1
-    elif direction == 'left':
-        return x - 1, y
-    elif direction == 'right':
-        return x + 1, y
-
-def is_valid_move(x, y, width, height, body):
-    if x < 0 or x >= width:
-        return False
-    if y < 0 or y >= height:
-        return False
-    if (x, y) in body:
-        return False
-    return True
-
-def is_food_location(x, y, snakes):
-    for snake in snakes:
-        for part in snake['body']:
-            if part['x'] == x and part['y'] == y:
-                return True
-    return False
-
-def is_snake_location(x, y, snakes):
-    for snake in snakes:
-        for part in snake['body']:
-            if part['x'] == x and part['y'] == y:
-                return True
-    return False
-
-if __name__ == '__main__':
-    bottle.run(
-        application=bottle.app(),
-        server='gunicorn',
-        host='0.0.0.0',
-        port=int(os.environ.get('PORT', 8080))
-    )
+def distance(point1, point2):
+    # Calculate the Manhattan distance between two points
+    return abs(point1["x"] - point2["x"]) + abs(point1["y"] - point2["y"])
